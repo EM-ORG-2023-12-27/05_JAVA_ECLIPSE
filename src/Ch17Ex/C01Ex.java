@@ -24,7 +24,7 @@ public class C01Ex {
 		
 		List<String> li = new ArrayList();
 		func1(li);
-		func2(li);
-		func3(li);
+		List<String> returndList =  func2(li);
+		func3(returndList);
 	}
 }
