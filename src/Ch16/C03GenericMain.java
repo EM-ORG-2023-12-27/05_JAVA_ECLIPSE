@@ -74,7 +74,7 @@ public class C03GenericMain {
 		Couple<Man,Man> couple2 = new Couple<Man,Man>(new Man("철수","20",'M'), new Man("길동","30",'M'));
 		couple2.ShowInfo();
 		System.out.println();
-		Couple<Man,Dog> couple3 = new Couple<Man,Dog>(new Man("길동2","20",'M'), new Dog("포메라니안"));
-		couple3.ShowInfo();
+//		Couple<Man,Dog> couple3 = new Couple<Man,Dog>(new Man("길동2","20",'M'), new Dog("포메라니안"));
+//		couple3.ShowInfo();
 	}
 }
