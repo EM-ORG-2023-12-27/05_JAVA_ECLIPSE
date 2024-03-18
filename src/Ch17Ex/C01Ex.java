@@ -1,5 +1,8 @@
 package Ch17Ex;
 
+// 컬렉션 + 제너릭 문제
+//https://security-nanglam.tistory.com/223
+
 import java.util.ArrayList;
 import java.util.List;
 
