@@ -1,5 +1,6 @@
 package Ch17;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Properties;
@@ -8,10 +9,18 @@ public class C06PropertiesMain {
 
 	public static void main(String[] args) throws Exception {
 		
-		
+		String classPath = System.getProperty("java.class.path");
+		//System.out.println("ClassPath : " + classPath);
+		String dirPath = System.getProperty("user.dir");
+		System.out.println("DirPath : " + dirPath);
+		String pakagePath = C06PropertiesMain.class.getPackageName();
+		//System.out.println("PakagePath : " + pakagePath);
+		String filePath = dirPath + File.separator + "src" + File.separator + pakagePath + File.separator +"application.properties";
+		//System.out.println("FILEPATH : " + filePath);
+
 		Properties properties =new Properties();
 				
-		FileInputStream fin = new FileInputStream("C:\\Users\\Administrator\\Downloads\\새 폴더 (3)\\05_JAVA_ECLIPSE\\src\\Ch17\\application.properties");	
+		FileInputStream fin = new FileInputStream(filePath);	
 		properties.load(fin);
 	
 		String url=properties.getProperty("url");
