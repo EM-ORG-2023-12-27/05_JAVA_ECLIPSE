@@ -4,8 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.UUID;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -71,7 +79,55 @@ class GUI extends JFrame implements ActionListener,KeyListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		if(e.getSource()==btn1)	//저장하기(FileWriter) 
+		{
+			System.out.println("저장하기 CLICKED");
+			
+			try {
+				
+				String contents = area1.getText();
+				String dirPath = "c:\\tmp_io\\";
+				String filename = UUID.randomUUID().toString();
+				FileWriter out =new FileWriter(dirPath+filename+".txt");
+				out.write(contents);
+				out.flush();
+				out.close();
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==btn2)//불러오기(FileReader) 
+		{
+			System.out.println("불러오기 CLICKED");
+			JFileChooser fileChooser = new JFileChooser();
+			File defaultDirPath = new File("c:\\tmp_io");
+			fileChooser.setCurrentDirectory(defaultDirPath);
+			int returnVal = fileChooser.showOpenDialog(null);
+			if(returnVal==JFileChooser.APPROVE_OPTION) //파일 선택을 했다면
+			{
+				 String filename=fileChooser.getSelectedFile().toString();
+				 System.out.println("selected Filename : " + filename);
+				 try {
+					Reader in = new FileReader(filename);
+					StringBuffer buffer = new StringBuffer();
+					while(true) {
+						int data = in.read();
+						if(data==-1)
+							break;
+						buffer.append((char)data);		
+					}
+					area1.setText("");
+					area1.append(buffer.toString());
+				 
+				 } catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				 }
+			}
+		}
 
 		
 	}
