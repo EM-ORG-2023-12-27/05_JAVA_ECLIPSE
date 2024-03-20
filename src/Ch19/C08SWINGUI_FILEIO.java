@@ -89,6 +89,17 @@ class GUI extends JFrame implements ActionListener,KeyListener{
 		//키를 눌렀을때
 //		System.out.println("keyPressed() : "+e.getKeyChar());
 //		System.out.println("keyPressed() : "+e.getKeyCode());
+		if(e.getSource()==txt1)
+		{
+			if(e.getKeyCode()==10)
+			{
+				System.out.println("txt1's Enter");
+				String str= txt1.getText();
+				area1.append(str+"\n");
+				txt1.setText("");
+			}
+			
+		}
 
 	}
 	@Override
