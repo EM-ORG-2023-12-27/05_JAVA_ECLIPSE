@@ -28,23 +28,28 @@ public class C05SELECT {
 			conn = DriverManager.getConnection(url,id,pw);
 			System.out.println("DB Connected..");
 			
-			pstmt =	conn.prepareStatement("insert into tbl_std values(?,?,?)");
-			pstmt.setString(1, "user1");
-			pstmt.setString(2, "1234");
-			pstmt.setString(3, "홍길동");
+			pstmt =	conn.prepareStatement("select * from tbl_data");
+
 			
-			int result =  pstmt.executeUpdate();
-			
-			if(result>0)
-				System.out.println("INSERT 성공");
-			else
-				System.out.println("INSERT 실패");
-			
-			
+			rs = pstmt.executeQuery();
+			if(rs!=null)
+			{
+				
+				while(rs.next()) {
+					System.out.print(rs.getString(1)+" ");
+					System.out.print(rs.getString(2)+" ");
+					System.out.print(rs.getString(3)+" ");
+					System.out.print(rs.getString("관리구역명")+" ");
+					System.out.println();			
+				}
+				
+			}
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
+			try {rs.close();} catch (SQLException e) {e.printStackTrace();}
 			try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}
 			try {conn.close();} catch (SQLException e) {e.printStackTrace();}
 		}
