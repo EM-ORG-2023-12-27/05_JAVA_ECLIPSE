@@ -99,7 +99,7 @@ public class C06TxMain {
 		List<Student> list = new ArrayList();
 		list.add(new Student("aaa","111","a"));
 		list.add(new Student("bbb","222","b"));
-		list.add(new Student("ccc","333","c"));
+		list.add(new Student("aaa","333","c"));
 		
 		try {
 			Init();
