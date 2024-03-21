@@ -14,7 +14,7 @@ public class C02INSERT {
 		//DB Conn Data
 		String id = "root";
 		String pw = "1234";
-		String url = "jdbc:mysql://localhost:3306/testDB";
+		String url = "jdbc:mysql://192.168.2.254:3306/testDB";
 		
 		//JDBC 참조변수
 		Connection conn = null;				//DBMS 의 특정 DB연결을 위한 참조변수
@@ -27,13 +27,25 @@ public class C02INSERT {
 			System.out.println("Driver Loading Success..");
 			conn = DriverManager.getConnection(url,id,pw);
 			System.out.println("DB Connected..");
-		
-		
+			
+			pstmt =	conn.prepareStatement("insert into tbl_std values(?,?,?)");
+			pstmt.setString(1, "user1");
+			pstmt.setString(2, "1234");
+			pstmt.setString(3, "홍길동");
+			
+			int result =  pstmt.executeUpdate();
+			
+			if(result>0)
+				System.out.println("INSERT 성공");
+			else
+				System.out.println("INSERT 실패");
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			
+			try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}
 			try {conn.close();} catch (SQLException e) {e.printStackTrace();}
 		}
 		
