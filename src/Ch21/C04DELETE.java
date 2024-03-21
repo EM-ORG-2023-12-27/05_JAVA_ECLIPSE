@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class C02INSERT {
+public class C04DELETE {
 
 	
 
@@ -28,17 +28,16 @@ public class C02INSERT {
 			conn = DriverManager.getConnection(url,id,pw);
 			System.out.println("DB Connected..");
 			
-			pstmt =	conn.prepareStatement("insert into tbl_std values(?,?,?)");
+			pstmt =	conn.prepareStatement("delete from tbl_std where userid=?");
 			pstmt.setString(1, "user1");
-			pstmt.setString(2, "1234");
-			pstmt.setString(3, "홍길동");
+			
 			
 			int result =  pstmt.executeUpdate();
 			
 			if(result>0)
-				System.out.println("INSERT 성공");
+				System.out.println("DELETE 성공");
 			else
-				System.out.println("INSERT 실패");
+				System.out.println("DELETE 실패");
 			
 			
 		} catch (Exception e) {
