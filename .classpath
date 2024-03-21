@@ -6,9 +6,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/새 폴더/수업/05_JAVA_ECLIPSE/src/Ch19/jsoup-1.16.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/새 폴더/수업/05_JAVA_ECLIPSE/src/Ch19/jackson-annotations-2.17.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/새 폴더/수업/05_JAVA_ECLIPSE/src/Ch19/jackson-core-2.17.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/새 폴더/수업/05_JAVA_ECLIPSE/src/Ch19/jackson-databind-2.17.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
