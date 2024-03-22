@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,8 +20,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-class GUI extends JFrame implements ActionListener, KeyListener {
+class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 	
 	JButton btn1;
 	JButton btn2;
@@ -32,6 +35,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 	JTextField txt2;
 	JTextArea area1;
 	JScrollPane scroll1;
+	
 	JScrollPane selectScroll;
 	JTable table;
 	
@@ -98,6 +102,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		btn6.addActionListener(this); // DB
 		txt1.addKeyListener(this);
 		area1.setEditable(false);
+		table.addMouseListener(this);
+		
 
 		// Add_Panel_Component
 		panel.add(btn1);
@@ -216,8 +222,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 				
 				
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+					e1.printStackTrace();
+				
 			} finally {
 				
 				try {rs.close();} catch (SQLException e1) {e1.printStackTrace();}
@@ -227,6 +233,53 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 			
 		
+		
+	}
+
+
+	
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource()==table) {
+			System.out.println("TABLE CLICKED..");
+			System.out.println("ROW : "+table.getSelectedRow());
+			System.out.println("COLUMN : "+table.getSelectedColumn());
+			TableModel model =  table.getModel();
+			Object value =  model.getValueAt(table.getSelectedRow(),table.getSelectedColumn());
+			System.out.println("VALUE : " +  value);
+			 
+			
+
+		}
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	
