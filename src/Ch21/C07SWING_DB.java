@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 class GUI extends JFrame implements ActionListener, KeyListener {
 	
@@ -30,6 +32,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 	JTextField txt2;
 	JTextArea area1;
 	JScrollPane scroll1;
+	
+	JPanel panel;
 
 	// DB INSERT FRAME_WINDOW
 	JFrame Frm_Insert;
@@ -53,7 +57,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		setBounds(100, 100, 550, 400);
 
 		// Panel
-		JPanel panel = new JPanel(); // 패널생성
+		panel = new JPanel(); // 패널생성
 		panel.setLayout(null);
 
 		// Component
@@ -125,6 +129,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		scroll1.setVisible(true);
+		
 		// TODO Auto-generated method stub
 		if (e.getSource() == txt1) {
 			if (e.getKeyCode() == 10) {
@@ -151,6 +157,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		
 		if(e.getSource()==btn3) 
 		{
+			
 			System.out.println("INSERT CLICKED..");
 			try {
 				
@@ -168,9 +175,53 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 				
 				try {pstmt.close();} catch (SQLException e1) {e1.printStackTrace();}
 				
+			}	
+		}
+		else if(e.getSource()==btn6)
+		{
+			
+			scroll1.setVisible(false);	//기존 스크롤숨기기
+			
+			System.out.println("SELECT CLICKED..");
+			try 
+			{
+				//테이블 구조생성
+				String [] column = {"NO","MEMO","DATE"};
+				Object[][] data = {};
+				DefaultTableModel model = new DefaultTableModel(data,column);
+				
+				
+				pstmt = conn.prepareStatement("select * from tbl_memo");
+				rs = pstmt.executeQuery();
+				if(rs!=null) {
+					
+					while(rs.next()) {
+						System.out.print(rs.getInt(1)+" ");
+						System.out.print(rs.getString(2)+" ");
+						System.out.print(rs.getDate(3)+"\n");		
+						Object[] rowData = {rs.getInt(1),rs.getString(2),rs.getDate(3)};
+						model.addRow(rowData);
+						
+					}				
+				}
+				
+				JTable table = new JTable(model);
+				JScrollPane scroll = new JScrollPane(table);
+				scroll.setBounds(10, 10, 350, 250);
+				panel.add(scroll);
+				
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally {
+				
+				try {rs.close();} catch (SQLException e1) {e1.printStackTrace();}
+				try {pstmt.close();} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			
 		}
+			
 		
 		
 	}
