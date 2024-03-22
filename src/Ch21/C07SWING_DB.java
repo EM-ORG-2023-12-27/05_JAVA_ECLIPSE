@@ -32,6 +32,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 	JTextField txt2;
 	JTextArea area1;
 	JScrollPane scroll1;
+	JScrollPane selectScroll;
+	JTable table;
 	
 	JPanel panel;
 
@@ -70,6 +72,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		txt1 = new JTextField();
 		txt2 = new JTextField();
 		area1 = new JTextArea();
+		table = new JTable();
+		selectScroll = new JScrollPane(table);
 		// area1.setBounds(10,90,210,300);
 		scroll1 = new JScrollPane(area1);
 
@@ -82,7 +86,8 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		btn5.setBounds(370, 170, 120, 30); // DB_UPDATE
 		btn6.setBounds(370, 210, 120, 30); // DB_UPDATE
 		scroll1.setBounds(10, 10, 350, 250);
-
+		selectScroll.setBounds(10, 10, 350, 250);
+		
 		// Event처리
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
@@ -105,6 +110,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		panel.add(txt2);
 //		panel.add(area1);
 		panel.add(scroll1);
+		panel.add(selectScroll);
 
 		// Frame
 		add(panel); // 프레임에 panel추가
@@ -181,7 +187,7 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		{
 			
 			scroll1.setVisible(false);	//기존 스크롤숨기기
-			
+
 			System.out.println("SELECT CLICKED..");
 			try 
 			{
@@ -200,15 +206,13 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 						System.out.print(rs.getString(2)+" ");
 						System.out.print(rs.getDate(3)+"\n");		
 						Object[] rowData = {rs.getInt(1),rs.getString(2),rs.getDate(3)};
-						model.addRow(rowData);
-						
+						model.addRow(rowData);					
 					}				
 				}
+
+				table.setModel(model);
 				
-				JTable table = new JTable(model);
-				JScrollPane scroll = new JScrollPane(table);
-				scroll.setBounds(10, 10, 350, 250);
-				panel.add(scroll);
+				//panel.add(selectScroll);
 				
 				
 			} catch (SQLException e1) {
