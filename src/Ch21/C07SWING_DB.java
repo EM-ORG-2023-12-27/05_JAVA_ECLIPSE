@@ -248,10 +248,9 @@ class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 			TableModel model =  table.getModel();
 			Object value =  model.getValueAt(table.getSelectedRow(),table.getSelectedColumn());
 			System.out.println("VALUE : " +  value);
-			 
-			
 
 		}
+		
 		
 	}
 
