@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 class GUI extends JFrame implements ActionListener, KeyListener {
+	
 	JButton btn1;
 	JButton btn2;
 	JButton btn3;
@@ -37,14 +40,14 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 	// DB연결정보 저장용 변수
 	String id = "root";
 	String pw = "1234";
-	String url = "jdbc:mysql://localhost:3306/tmpdb";
+	String url = "jdbc:mysql://localhost:3306/testdb";
 	
 	// JDBC참조변수
 	Connection conn = null; // DB연결용 참조변수
 	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
 	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
 
-	GUI() {
+	GUI() throws Exception {
 		// Frame
 		super("프레임창입니다");
 		setBounds(100, 100, 550, 400);
@@ -106,7 +109,10 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 		setVisible(true);
 
 		// DB Connection
-
+		Class.forName("com.mysql.cj.jdbc.Driver"); //드라이브 파일을 메모리공간에 적재
+		System.out.println("Driver Loading Success..");
+		conn = DriverManager.getConnection(url,id,pw);
+		System.out.println("DB Connected..");
 
 	}
 	
@@ -143,6 +149,30 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+		if(e.getSource()==btn3) 
+		{
+			System.out.println("INSERT CLICKED..");
+			try {
+				
+				pstmt = conn.prepareStatement("insert into tbl_memo values(null,?,now())");
+				pstmt.setString(1, area1.getText());
+				int result =  pstmt.executeUpdate();
+				if(result>0)
+					System.out.println("INSERT 성공");
+				else
+					System.out.println("INSERT 실패");
+			
+			} catch (SQLException e1) {	
+				e1.printStackTrace();
+			}finally {
+				
+				try {pstmt.close();} catch (SQLException e1) {e1.printStackTrace();}
+				
+			}
+			
+		}
+		
+		
 	}
 	
 	
@@ -150,8 +180,10 @@ class GUI extends JFrame implements ActionListener, KeyListener {
 
 public class C07SWING_DB {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		
 		new GUI();
+	
 	}
 	
 }
