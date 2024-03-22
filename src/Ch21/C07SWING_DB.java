@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -56,6 +58,10 @@ class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 	Connection conn = null; // DB연결용 참조변수
 	PreparedStatement pstmt = null; // SQL쿼리 전송용 참조변수
 	ResultSet rs = null; // SQL쿼리 결과(SELECT결과) 수신용 참조변수
+	
+	
+	//Table의 수정될 Row 저장용 List
+	List<Integer> ModifedRowList ;
 
 	GUI() throws Exception {
 		// Frame
@@ -101,7 +107,7 @@ class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 		btn5.addActionListener(this); // DB
 		btn6.addActionListener(this); // DB
 		txt1.addKeyListener(this);
-		area1.setEditable(false);
+//		area1.setEditable(false);
 		table.addMouseListener(this);
 		
 
@@ -129,6 +135,8 @@ class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 		System.out.println("Driver Loading Success..");
 		conn = DriverManager.getConnection(url,id,pw);
 		System.out.println("DB Connected..");
+		
+		ModifedRowList = new ArrayList();
 
 	}
 	
@@ -231,23 +239,60 @@ class GUI extends JFrame implements ActionListener, KeyListener,MouseListener {
 			}
 			
 		}
+		if(e.getSource()==btn4) {
+			System.out.println("UPDATE CLICKED..");
+			TableModel model =  table.getModel();
+			try {
+				conn.setAutoCommit(false);
+				for(int row : ModifedRowList) {
+					
+					int no =  (Integer)model.getValueAt(row, 0);
+					String memo = (String)model.getValueAt(row, 1);
+					
+					
+						
+						pstmt = conn.prepareStatement("update tbl_memo set memo=?,date=now() where id=?");
+						pstmt.setString(1, memo);
+						pstmt.setInt(2, no);
+						int result =  pstmt.executeUpdate();
+						if(result>0) {
+							System.out.println("UPDATE 성공");
+						}else {
+							System.out.println("UPDATE 실패");
+						}		
+				}
+				conn.commit();
 			
-		
-		
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				try {conn.rollback();} catch (SQLException e2) {e2.printStackTrace();}
+			} finally {
+				
+				try {pstmt.close();} catch (SQLException e1) {e1.printStackTrace();}
+				ModifedRowList.clear();
+			}
+			
+			
+		}	
 	}
 
-
-	
-	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+
 		if(e.getSource()==table) {
 			System.out.println("TABLE CLICKED..");
 			System.out.println("ROW : "+table.getSelectedRow());
 			System.out.println("COLUMN : "+table.getSelectedColumn());
+			int row = table.getSelectedRow();
+			int column = table.getSelectedColumn();
+			
 			TableModel model =  table.getModel();
-			Object value =  model.getValueAt(table.getSelectedRow(),table.getSelectedColumn());
+			Object value =  model.getValueAt(row,column);
 			System.out.println("VALUE : " +  value);
+			
+			ModifedRowList.add(row);
+				
 
 		}
 		
