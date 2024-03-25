@@ -56,14 +56,14 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 		
 		//소켓 코드 추가
 		//1
-		server = new ServerSocket(8008);
-		//2
+		server = new ServerSocket(8009);
 		client = server.accept(); 
 		dout = new DataOutputStream(client.getOutputStream());
 		//3 스레드 만들기(수신용:  recv)
 		ServerRecvThread recv = new ServerRecvThread(client,this);
 		//4 스레드 실행하기(수신 : recv)
 		Thread th = new Thread(recv);
+		th.start();
 		//처음접속메시지 띄우기
 		area.append("[CLIENT] 가 접속했습니다\n");
 	}
