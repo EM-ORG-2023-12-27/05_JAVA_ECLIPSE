@@ -1,5 +1,9 @@
 package Ch23;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 class IncrementThread2 implements Runnable {
 	private static int counter = 0;
 
@@ -32,8 +36,6 @@ class IncrementThread2 implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-
 			}	//임계영역끝
 
 		}
@@ -44,7 +46,8 @@ public class C05ThreadMain_Ex_임계영역설정 {
 
 	public static void main(String[] args) throws InterruptedException {
 
-	 
+		Object obj = new Object();
+		
 		
 		IncrementThread2 incrementThread1 = new IncrementThread2();
 		IncrementThread2 incrementThread2 = new IncrementThread2();
@@ -59,6 +62,7 @@ public class C05ThreadMain_Ex_임계영역설정 {
 		thread2.join();
 
 		System.out.println("Final value: " + incrementThread1.getCounter());
+
 
 	}
 }
