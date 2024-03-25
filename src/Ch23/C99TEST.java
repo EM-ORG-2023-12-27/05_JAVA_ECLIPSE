@@ -30,8 +30,6 @@ public class C99TEST {
 		
 		new B(()->{}).method();;
 		
-
-		
 	}
 	
 	
