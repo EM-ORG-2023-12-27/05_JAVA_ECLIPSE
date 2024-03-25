@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -54,11 +55,15 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 		
 		//소켓 코드 추가
 		//1
+		server = new ServerSocket(8008);
 		//2
-	
+		client = server.accept(); 
 		//3 스레드 만들기(수신용:  recv)
+		ServerRecvThread recv = new ServerRecvThread(client,this);
 		//4 스레드 실행하기(수신 : recv)
+		Thread th = new Thread(recv);
 		//처음접속메시지 띄우기
+		area.append("[CLIENT] 가 접속했습니다\n");
 	}
 
 	@Override
@@ -81,6 +86,21 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 
 			//1 필드의 내용 ->Area
 			area.append("[SERVER] : "+txt1.getText()+"\n");
+
+			
+			try {
+			
+				DataOutputStream  dout = new DataOutputStream(client.getOutputStream());
+				dout.writeUTF(txt1.getText());
+				dout.flush();
+			
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}finally {
+				
+			}
+			
 			//2 필드의 내용 삭제
 			txt1.setText("");
 			
