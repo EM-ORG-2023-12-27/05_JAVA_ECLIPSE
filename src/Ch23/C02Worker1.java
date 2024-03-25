@@ -2,6 +2,7 @@ package Ch23;
 
 public class C02Worker1 implements Runnable {
 
+	
 	@Override
 	public void run() {
 		
