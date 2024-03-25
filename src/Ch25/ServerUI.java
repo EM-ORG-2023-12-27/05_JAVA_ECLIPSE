@@ -24,6 +24,7 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 	//소켓코드 추가
 	ServerSocket server;
 	Socket client;
+	DataOutputStream  dout;
 	
 	Sgui() throws Exception{
 		super("Chat Server");			//프레임창 제목		
@@ -58,6 +59,7 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 		server = new ServerSocket(8008);
 		//2
 		client = server.accept(); 
+		dout = new DataOutputStream(client.getOutputStream());
 		//3 스레드 만들기(수신용:  recv)
 		ServerRecvThread recv = new ServerRecvThread(client,this);
 		//4 스레드 실행하기(수신 : recv)
@@ -89,8 +91,7 @@ class Sgui extends JFrame implements ActionListener,KeyListener
 
 			
 			try {
-			
-				DataOutputStream  dout = new DataOutputStream(client.getOutputStream());
+
 				dout.writeUTF(txt1.getText());
 				dout.flush();
 			

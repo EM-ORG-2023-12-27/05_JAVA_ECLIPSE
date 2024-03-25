@@ -22,7 +22,7 @@ class Cgui extends JFrame implements ActionListener,KeyListener
 	JTextField txt1;
 	//소켓 코드 추가
 	Socket client;
-	
+	DataOutputStream dout;
 	Cgui() throws Exception {
 		super("Chat Client");	//프레임창 제목		
 		JPanel pannel = new JPanel(); //패널 생성		
@@ -52,7 +52,8 @@ class Cgui extends JFrame implements ActionListener,KeyListener
 		
 		//소켓 코드 추가
 		//1 서버로 연결 요청
-		Socket client = new Socket("192.168.2.254",8008);
+		client = new Socket("192.168.2.254",8008);
+		dout = new DataOutputStream(client.getOutputStream());
 		//2 수신 스레드 객체 생성
 		ClientRecvThread recv = new ClientRecvThread(client,this);
 		//3 수신 스레드 실행
@@ -84,7 +85,7 @@ class Cgui extends JFrame implements ActionListener,KeyListener
 			area.append("[Client] : "+txt1.getText()+"\n");
 			
 			try {
-				DataOutputStream dout = new DataOutputStream(client.getOutputStream());
+				
 				dout.writeUTF(txt1.getText());
 				dout.flush();
 							
