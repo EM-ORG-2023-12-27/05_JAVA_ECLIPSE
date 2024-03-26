@@ -7,6 +7,7 @@ public class C07최종연산 {
 //	List<String> names = Arrays.asList("John", "Jane", "Mike");
 //	names.stream()
 //	     .forEach(System.out::println); // 출력: John Jane Mike
+
 //
 //	//collect
 //	List<String> names = Arrays.asList("John", "Jane", "Mike");
