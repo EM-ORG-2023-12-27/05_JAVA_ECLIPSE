@@ -1,7 +1,5 @@
 package Ch33;
 
-package Ch37함수형프로그래밍;
-
 import java.util.Arrays;
 
 interface functional{
