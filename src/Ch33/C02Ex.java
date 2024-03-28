@@ -20,10 +20,8 @@ class Calc{
 	}
 }
 
+public class C02Ex {
 
-public class C01_2Ex {
-
-	
 	public static void main(String[] args) {
 		Calc calc = new Calc();
 		System.out.println("합 :"+ calc.sum.execute(10,20,30,40,50,60));
