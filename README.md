@@ -1,2 +1,2 @@
 # BADGE TEST
-![HTML5](https://img.shields.io/badge/HAHAHA-#302683?style=for-the-badge&logo=htmlacademy&logoColor=white)
+![HTML5](https://img.shields.io/badge/HAHAHA-302683?style=for-the-badge&logo=htmlacademy&logoColor=white)
