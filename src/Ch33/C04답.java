@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class C04답 {
 
 	public static Function<List<String>,Integer> func1 = list ->list.stream()
-																	.filter(el->{return el.length()>5;})
+																	.filter(el->el.length()>5)
 																	.map(el->1)
 																	.reduce((a,b)->a+b)
 																	.get();
