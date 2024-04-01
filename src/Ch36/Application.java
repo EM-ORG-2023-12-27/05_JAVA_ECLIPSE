@@ -47,15 +47,7 @@ public class Application {
 		Map<String,Object> result =   controller.execute("/book", 1, params);
 		Object response = result.get("response");
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	}
 	
