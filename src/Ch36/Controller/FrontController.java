@@ -7,7 +7,7 @@ public class FrontController {
 	
 	private Map<String,SubController> map = new HashMap();
 	
-	FrontController(){
+	public FrontController(){
 		System.out.println("FrontController()");
 		init();
 	}
