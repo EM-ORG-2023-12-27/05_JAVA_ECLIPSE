@@ -4,6 +4,7 @@ import java.util.List;
 
 import Ch36.Domain.Dao.BookDaoImpl;
 import Ch36.Domain.Dto.BookDto;
+import Ch36.Domain.Service.BookServiceImpl;
 
 public class Main {
 
@@ -18,16 +19,27 @@ public class Main {
 //		System.out.println();
 		
 		//02
-		BookDaoImpl dao = new BookDaoImpl();
-		dao.Insert(new BookDto(1112,"JAVA의정석-2","EASY","111-112"));
-		dao.Insert(new BookDto(1113,"난정말JAVA를공부해본적이없다구요","00출판사","211-111"));
-		dao.Insert(new BookDto(1114,"JSP/SERVLET 기초","ㅋㅋ출판사","112-111"));
+//		BookDaoImpl dao = new BookDaoImpl();
+//		dao.Insert(new BookDto(1112,"JAVA의정석-2","EASY","111-112"));
+//		dao.Insert(new BookDto(1113,"난정말JAVA를공부해본적이없다구요","00출판사","211-111"));
+//		dao.Insert(new BookDto(1114,"JSP/SERVLET 기초","ㅋㅋ출판사","112-111"));
 		
 		//03
-		List<BookDto> list =  dao.SelectAll();
+//		List<BookDto> list =  dao.SelectAll();
+//		list.forEach(dto->{
+//			System.out.println(dto);
+//		});
+//		System.out.println();
+//		BookDto dto =  dao.Select(1112);
+//		System.out.println(dto);
+		
+		//04
+		BookServiceImpl service = new BookServiceImpl();
+		List<BookDto> list =  service.getAllBooks();
 		list.forEach(dto->{
 			System.out.println(dto);
 		});
+		
 		
 		
 		
