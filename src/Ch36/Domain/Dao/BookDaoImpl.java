@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import Ch36.Domain.Dto.BookDto;
 
@@ -36,8 +38,50 @@ public class BookDaoImpl {
 	
 	//UPDATE
 	//DELETE
+	
 	//SELECTALL
+	public List<BookDto> SelectAll() throws Exception{
+		pstmt = conn.prepareStatement("select * from book");
+		rs =  pstmt.executeQuery();
+		List<BookDto> list = new ArrayList();
+		BookDto dto = null;
+		if(rs!=null)
+		{
+			while(rs.next()) {
+				dto = new BookDto();
+				dto.setBookCode(rs.getInt("bookCode"));
+				dto.setBookName(rs.getString("bookName"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setIsbn(rs.getString("isbn"));
+				list.add(dto);
+			}
+		}	
+		rs.close();
+		pstmt.close();
+		return list;
+	}
+	
+	
 	//SELECTONE
+	public BookDto Select(int bookCode) throws Exception {
+		pstmt = conn.prepareStatement("select * from book where bookCode=?");
+		pstmt.setInt(1, bookCode);
+		rs =  pstmt.executeQuery();
+		
+		BookDto dto = null;
+		if(rs!=null)
+		{
+				rs.next();
+				dto = new BookDto();
+				dto.setBookCode(rs.getInt("bookCode"));
+				dto.setBookName(rs.getString("bookName"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setIsbn(rs.getString("isbn"));		
+		}	
+		rs.close();
+		pstmt.close();
+		return dto;
+	}
 	
 	
 	
