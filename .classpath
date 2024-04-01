@@ -6,5 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/HikariCP-5.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Administrator/Downloads/새 폴더/LEC/05_JAVA_ECLIPSE/src/Ch36/Dependencies/mysql-connector-j-8.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
