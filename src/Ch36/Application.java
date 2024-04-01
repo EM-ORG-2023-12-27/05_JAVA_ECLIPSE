@@ -1,12 +1,12 @@
 package Ch36;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import Ch36.Domain.Dao.BookDaoImpl;
+import Ch36.Controller.FrontController;
 import Ch36.Domain.Dto.BookDto;
-import Ch36.Domain.Service.BookServiceImpl;
 
-public class Main {
+public class Application {
 
 	
 	public static void main(String[] args) throws Exception {
@@ -34,11 +34,22 @@ public class Main {
 //		System.out.println(dto);
 		
 		//04
-		BookServiceImpl service = new BookServiceImpl();
-		List<BookDto> list =  service.getAllBooks();
-		list.forEach(dto->{
-			System.out.println(dto);
-		});
+//		BookServiceImpl service = new BookServiceImpl();
+//		List<BookDto> list =  service.getAllBooks();
+//		list.forEach(dto->{
+//			System.out.println(dto);
+//		});
+		
+		//05
+		FrontController controller = new FrontController();
+		Map<String,Object> params = new HashMap();
+		params.put("bookDto",new BookDto(2222,"이것이C언어다","EASY","222-2222"));
+		Map<String,Object> result =   controller.execute("/book", 1, params);
+		Object response = result.get("response");
+		
+		
+		
+		
 		
 		
 		

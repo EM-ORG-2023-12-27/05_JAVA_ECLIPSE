@@ -1,10 +1,25 @@
 package Ch36.Controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import Ch36.Domain.Dto.BookDto;
+import Ch36.Domain.Service.BookServiceImpl;
 
 public class BookController implements SubController{
+	
+	private BookServiceImpl service;
+	public BookController(){	
+		try {
+			
+			service = new BookServiceImpl();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	// 1 Insert , 2 Update , 3 Delete 4 SelectAll 5 Select 
 	
 	@Override
@@ -26,9 +41,19 @@ public class BookController implements SubController{
 			if( !isValid(dto) ) 
 				return null;
 			
+			
 			//3 서비스 실행
+			boolean isRegistred=false;
+			try {		
+				isRegistred =  service.bookRegister(dto);		
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//4 뷰로 전달 or 이동
+			Map<String,Object> result = new HashMap();
+			result.put("response", isRegistred);
 			
 		}
 		else if(serviceNo==2) //UPDATE
