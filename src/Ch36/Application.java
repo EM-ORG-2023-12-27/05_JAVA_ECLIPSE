@@ -1,10 +1,7 @@
 package Ch36;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import Ch36.Controller.FrontController;
-import Ch36.Domain.Dto.BookDto;
+import Ch36.Domain.Dao.UserDaoImpl;
+import Ch36.Domain.Dto.UserDto;
 
 public class Application {
 
@@ -41,11 +38,15 @@ public class Application {
 //		});
 		
 		//05
-		FrontController controller = new FrontController();
-		Map<String,Object> params = new HashMap();
-		params.put("bookDto",new BookDto(2222,"이것이C언어다","EASY","222-2222"));
-		Map<String,Object> result =   controller.execute("/book", 1, params);
-		Object response = result.get("response");
+//		FrontController controller = new FrontController();
+//		Map<String,Object> params = new HashMap();
+//		params.put("bookDto",new BookDto(2222,"이것이C언어다","EASY","222-2222"));
+//		Map<String,Object> result =   controller.execute("/book", 1, params);
+//		Object response = result.get("response");
+
+		//06
+//		UserDaoImpl dao = new UserDaoImpl();
+//		dao.Insert(new UserDto("user1","1234","ROLE_USER",false));
 		
 
 		
