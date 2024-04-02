@@ -39,8 +39,10 @@ public class UserDaoImpl {
 	//SELECTALL
 	//SELECT
 	
+	
 	public SessionDto Select(int sessiondId) throws Exception {
 		pstmt = conn.prepareStatement("select * from session where id=?");
+		pstmt.setInt(1,sessiondId);
 		rs=pstmt.executeQuery();
 		SessionDto dto=null;
 		if(rs!=null) {
@@ -52,8 +54,28 @@ public class UserDaoImpl {
 		}
 			
 		return dto;
-		
 	}
+	public UserDto Select(String username) throws Exception{
+		pstmt = conn.prepareStatement("select * from user where username=?");
+		pstmt.setString(1, username);
+		rs = pstmt.executeQuery();
+		UserDto dto = null;
+		if(rs!=null) {
+			rs.next();
+			dto = new UserDto();
+			dto.setUsername(username);
+			dto.setPassword(rs.getString("password"));
+			dto.setRole(rs.getString("role"));
+			dto.setIslocked(rs.getBoolean("islocked"));
+		}
+		return dto;	
+	}
+
+	public boolean Insert(SessionDto sessionDto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	
 	
 }

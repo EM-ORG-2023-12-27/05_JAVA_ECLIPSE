@@ -1,18 +1,25 @@
 package Ch36.Domain.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import Ch36.Domain.Dao.UserDaoImpl;
+import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
 public class UserServiceImpl {
 	
+	private List<Integer> SessionIdList;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserDaoImpl userDao;
 	public UserServiceImpl() throws Exception {
 		System.out.println("UserServiceImpl's UserServiceImpl()");
 		bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		userDao = new UserDaoImpl();
+		
+		SessionIdList=new ArrayList();
 	}
 	
 	//회원가입
@@ -28,5 +35,48 @@ public class UserServiceImpl {
 		
 	 	return userDao.Insert(dto);
 	}
+	
+	//로그인
+	public boolean login(UserDto dto,int SessiondId) throws Exception {
+		//1 SessionList에 동일한 세션정보가 있는지 확인
+		for(int id : SessionIdList) {
+			if(SessiondId==id)
+				return false;
+		}
+		
+		//2 로그인 상태가 아니라면 user테이블로부터 동일한 이름의 user정보를 가져오기(getUser())
+		UserDto savedUser =  getUser(dto.getUsername());
+		if(savedUser==null)
+			return false;
+		
+		//3 pw일치여부 확인
+		if(!bCryptPasswordEncoder.matches(dto.getPassword(), savedUser.getPassword())) {
+			return false;
+		}
+		
+		//4 PW일치한다면 session테이블에 세션정보 저장
+		SessionDto sessionDto = new SessionDto();
+		sessionDto.setUsername(savedUser.getUsername());
+		sessionDto.setRole(savedUser.getRole());
+		boolean isSessionSaved =  userDao.Insert(sessionDto);
+		
+		
+		
+		//5 PW일치한다면 sessionList에 sessionId값 저장
+
+		
+		
+		return false;
+	}
+	//로그아웃
+	public boolean logout(int SessionId) {
+		return false;
+	}
+	
+	//유저정보 가져오기
+	public UserDto getUser(String username) throws Exception {
+		return userDao.Select(username);
+	}
+	
 	
 }
