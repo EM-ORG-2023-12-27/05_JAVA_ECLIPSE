@@ -1,10 +1,8 @@
 package Ch36;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import Ch36.Controller.FrontController;
-import Ch36.Domain.Dto.UserDto;
+import Ch36.Domain.Service.UserServiceImpl;
 
 public class Application {
 
@@ -64,8 +62,25 @@ public class Application {
 //		params.put("userDto",new UserDto("user3","1234","ROLE_USER",false));
 //		controller.execute("/user", 1, params);
 		
+		//09
+		UserServiceImpl service = new UserServiceImpl();
 		
+		//로그인실패 : 존재하지 않는계정
+		Map<String,Object> islogin1= service.login("user5","1234", 0);
+		System.out.println("islogin1 : " + islogin1);
 		
+		//로그인실패 : 계정은 존재,패스워드 일치
+		Map<String,Object>  islogin2= service.login("user2","1235", 0);
+		System.out.println("islogin2 : " + islogin2);
+		
+		//로그인성공 : 계정은 존재하나 패스워드 불일치
+		Map<String,Object>  islogin3= service.login("user2","1234", 0);
+		System.out.println("islogin3 : " + islogin3);
+		Integer mySessionId = (Integer)islogin3.get("sessionId");
+		
+		//로그인실패 : 기존 로그인된 계정이 존재
+		Map<String,Object>  islogin4= service.login("user2","1234", mySessionId);
+		System.out.println("islogin4 : " + islogin4);
 	}
 	
 	

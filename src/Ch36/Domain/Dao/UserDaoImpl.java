@@ -46,13 +46,16 @@ public class UserDaoImpl {
 		pstmt.setString(1, username);
 		rs = pstmt.executeQuery();
 		UserDto dto = null;
+		
 		if(rs!=null) {
-			rs.next();
-			dto = new UserDto();
-			dto.setUsername(username);
-			dto.setPassword(rs.getString("password"));
-			dto.setRole(rs.getString("role"));
-			dto.setIslocked(rs.getBoolean("islocked"));
+			if(rs.next()) {
+				dto = new UserDto();
+				dto.setUsername(username);
+				dto.setPassword(rs.getString("password"));
+				dto.setRole(rs.getString("role"));
+				dto.setIslocked(rs.getBoolean("islocked"));
+			}
+			
 		}
 		return dto;	
 	}
