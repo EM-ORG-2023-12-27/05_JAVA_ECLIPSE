@@ -18,7 +18,7 @@ public class FrontController {
 		//  /member - MemberController
 		//  /lend	- LendController
 		map.put("/book", new BookController());
-		map.put("/member", new MemberController());
+		map.put("/member", new UserController());
 		map.put("/lend", new LendController());		
 	}
 	
