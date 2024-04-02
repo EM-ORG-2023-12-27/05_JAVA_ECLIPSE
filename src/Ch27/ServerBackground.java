@@ -50,8 +50,7 @@ public class ServerBackground {
 	
 	public void addClient(String nick, DataOutputStream Dout) {
 		broadCast(nick  + " 님이 접속하셨습니다" +client.getInetAddress()+"\n");
-		ClientList.put(nick, Dout);
-		
+		ClientList.put(nick, Dout);	
 	}
 	public void removeClient(String nick) {
 		gui.area.append(nick + " 님이 퇴장하셨습니다\n");
