@@ -1,7 +1,6 @@
 package Ch36;
 
-import Ch36.Domain.Dao.UserDaoImpl;
-import Ch36.Domain.Dto.UserDto;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Application {
 
@@ -49,6 +48,7 @@ public class Application {
 //		dao.Insert(new UserDto("user1","1234","ROLE_USER",false));
 		
 
+		
 		
 	}
 	
