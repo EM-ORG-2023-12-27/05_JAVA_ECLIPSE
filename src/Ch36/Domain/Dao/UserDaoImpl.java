@@ -60,9 +60,5 @@ public class UserDaoImpl {
 		return dto;	
 	}
 
-
-
-	
-	
 	
 }
