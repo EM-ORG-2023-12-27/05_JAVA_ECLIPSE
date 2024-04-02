@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import Ch36.Domain.Dao.SessionDaoImpl;
 import Ch36.Domain.Dao.UserDaoImpl;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
@@ -14,10 +15,13 @@ public class UserServiceImpl {
 	private List<Integer> SessionIdList;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserDaoImpl userDao;
+	private SessionDaoImpl sessionDao;
 	public UserServiceImpl() throws Exception {
 		System.out.println("UserServiceImpl's UserServiceImpl()");
 		bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		
 		userDao = new UserDaoImpl();
+		sessionDao = new SessionDaoImpl();
 		
 		SessionIdList=new ArrayList();
 	}
@@ -58,15 +62,15 @@ public class UserServiceImpl {
 		SessionDto sessionDto = new SessionDto();
 		sessionDto.setUsername(savedUser.getUsername());
 		sessionDto.setRole(savedUser.getRole());
-		boolean isSessionSaved =  userDao.Insert(sessionDto);
-		
+		boolean isSessionSaved =  sessionDao.Insert(sessionDto);
+		if(!isSessionSaved)
+			return false;
 		
 		
 		//5 PW일치한다면 sessionList에 sessionId값 저장
-
+		Integer id =  sessionDao.Select(sessionDto.getUsername()).getSessionId();
+		return SessionIdList.add(id);
 		
-		
-		return false;
 	}
 	//로그아웃
 	public boolean logout(int SessionId) {

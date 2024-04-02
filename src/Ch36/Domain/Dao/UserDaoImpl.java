@@ -40,21 +40,7 @@ public class UserDaoImpl {
 	//SELECT
 	
 	
-	public SessionDto Select(int sessiondId) throws Exception {
-		pstmt = conn.prepareStatement("select * from session where id=?");
-		pstmt.setInt(1,sessiondId);
-		rs=pstmt.executeQuery();
-		SessionDto dto=null;
-		if(rs!=null) {
-			rs.next();
-			dto=new SessionDto();
-			dto.setUsername(rs.getString("username"));
-			dto.setRole(rs.getString("role"));
-			dto.setSessionId(rs.getInt("id"));
-		}
-			
-		return dto;
-	}
+
 	public UserDto Select(String username) throws Exception{
 		pstmt = conn.prepareStatement("select * from user where username=?");
 		pstmt.setString(1, username);
@@ -71,10 +57,8 @@ public class UserDaoImpl {
 		return dto;	
 	}
 
-	public boolean Insert(SessionDto sessionDto) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
+
 	
 	
 	
