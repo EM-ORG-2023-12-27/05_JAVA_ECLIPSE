@@ -1,6 +1,7 @@
 package Ch36;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import Ch36.Domain.Dto.UserDto;
+import Ch36.Domain.Service.UserServiceImpl;
 
 public class Application {
 
@@ -48,7 +49,11 @@ public class Application {
 //		dao.Insert(new UserDto("user1","1234","ROLE_USER",false));
 		
 
+		//07
+		UserServiceImpl service = new UserServiceImpl();
+		service.UserJoin(new UserDto("user2","1234","ROLE_USER",false));
 		
+		System.out.println();
 		
 	}
 	
