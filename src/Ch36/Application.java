@@ -53,7 +53,7 @@ public class Application {
 		UserServiceImpl service = new UserServiceImpl();
 		service.UserJoin(new UserDto("user2","1234","ROLE_USER",false));
 		
-		System.out.println();
+
 		
 	}
 	
