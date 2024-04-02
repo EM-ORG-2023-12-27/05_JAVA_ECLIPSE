@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
 public class UserDaoImpl {
@@ -37,6 +38,22 @@ public class UserDaoImpl {
 	//DELETE
 	//SELECTALL
 	//SELECT
+	
+	public SessionDto Select(int sessiondId) throws Exception {
+		pstmt = conn.prepareStatement("select * from session where id=?");
+		rs=pstmt.executeQuery();
+		SessionDto dto=null;
+		if(rs!=null) {
+			rs.next();
+			dto=new SessionDto();
+			dto.setUsername(rs.getString("username"));
+			dto.setRole(rs.getString("role"));
+			dto.setSessionId(rs.getInt("id"));
+		}
+			
+		return dto;
+		
+	}
 	
 	
 }

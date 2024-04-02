@@ -1,7 +1,10 @@
 package Ch36;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import Ch36.Controller.FrontController;
 import Ch36.Domain.Dto.UserDto;
-import Ch36.Domain.Service.UserServiceImpl;
 
 public class Application {
 
@@ -50,10 +53,18 @@ public class Application {
 		
 
 		//07
-		UserServiceImpl service = new UserServiceImpl();
-		service.UserJoin(new UserDto("user2","1234","ROLE_USER",false));
-		
+//		UserServiceImpl service = new UserServiceImpl();
+//		service.UserJoin(new UserDto("user2","1234","ROLE_USER",false));
 
+		
+		
+		//08
+//		FrontController controller = new FrontController();		
+//		Map<String,Object> params= new HashMap();
+//		params.put("userDto",new UserDto("user3","1234","ROLE_USER",false));
+//		controller.execute("/user", 1, params);
+		
+		
 		
 	}
 	
