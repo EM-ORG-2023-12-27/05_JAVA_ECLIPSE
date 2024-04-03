@@ -7,9 +7,9 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		
-		//new MAINGUI();
+		new MAINGUI();
 		
-		new MVCClient();
+		//new MVCClient();
 		
 	}
 }

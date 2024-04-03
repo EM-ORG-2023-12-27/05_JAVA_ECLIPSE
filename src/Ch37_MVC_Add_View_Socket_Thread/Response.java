@@ -1,8 +1,11 @@
 package Ch37_MVC_Add_View_Socket_Thread;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Response {
+public class Response  implements Serializable{
+	private static final long serialVersionUID = 2L;
+
 	private Map<String,Object> header;
 	private Map<String,Object> body;
 	

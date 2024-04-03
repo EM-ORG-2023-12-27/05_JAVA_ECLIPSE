@@ -12,7 +12,6 @@ public class MVCServerRecvThread  implements Runnable{
 	String clientIp;
 	Socket client;
 	ObjectInputStream Din;
-	ObjectOutputStream Dout;
 	MVCserver mvcServer;
 	FrontController frontController;
 	
@@ -25,7 +24,6 @@ public class MVCServerRecvThread  implements Runnable{
 		
 		try {
 			Din = new ObjectInputStream(client.getInputStream());
-			Dout = new ObjectOutputStream(client.getOutputStream());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -47,9 +45,11 @@ public class MVCServerRecvThread  implements Runnable{
 					Integer serviceNo =(Integer)body.get("serviceNo");
 					Map<String,Object> params = (Map<String,Object>)body.get("params");
 
+					System.out.printf("%s : %s , %s , %s\n",clientIp,uri,serviceNo,params);
 					//요구사항 요청
 					Map<String,Object> returnValue =  frontController.execute(uri, serviceNo, params);
 					//결과 Send하기
+					System.out.println("[MVC] resultVal : " + returnValue);
 					mvcServer.Response(clientIp, returnValue);
 					
 				}	

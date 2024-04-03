@@ -53,13 +53,14 @@ public class MVCserver {
 	}
 	
 	//서버->클라이언트 응답용
-	synchronized public void Response(String ip, Map<String,Object> response) throws IOException {
+	synchronized public void Response(String ip, Map<String,Object> returnValue) throws IOException {
 		
 		Socket client =  ClientList.get(ip);
 		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+		Response response = new Response();
+		response.setBody(returnValue);
 		out.writeObject(response);
 		out.flush();
-		out.close();
 	}
 	
 	

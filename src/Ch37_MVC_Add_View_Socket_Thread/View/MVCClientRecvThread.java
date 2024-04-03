@@ -1,5 +1,6 @@
 package Ch37_MVC_Add_View_Socket_Thread.View;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -9,9 +10,9 @@ import Ch37_MVC_Add_View_Socket_Thread.Response;
 
 public class MVCClientRecvThread  implements Runnable{
 
-	Socket client;
-	MVCClient mvcClient;
-	ObjectInputStream in;
+	public Socket client;
+	public MVCClient mvcClient;
+	public ObjectInputStream in;
 	
 	public MVCClientRecvThread(Socket client, MVCClient mvcClient) throws IOException {
 		this.client =client;
@@ -21,11 +22,22 @@ public class MVCClientRecvThread  implements Runnable{
 
 	@Override
 	public void run() {
-		try {
-			Object recv;
+		
+			Object recv=null;
 			while(true)
 			{
-				recv= in.readObject(); //클라이언트의 전달 메시지를 수신
+		
+				try {
+					recv= in.readObject();
+				}catch (EOFException e) {
+					System.out.println("EOF..수신된 내용없음");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
+				
+				//클라이언트의 전달 메시지를 수신
 				if(recv!=null) {
 					
 					Response response  = (Response)recv;
@@ -37,9 +49,7 @@ public class MVCClientRecvThread  implements Runnable{
 				}	
 				
 			}	
-		}catch(Exception e) {
-			e.printStackTrace();	
-		}
+	
 		
 	}
 

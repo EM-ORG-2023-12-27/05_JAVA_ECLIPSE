@@ -13,29 +13,29 @@ public class MVCClient {
 	public ObjectOutputStream out;
 	public Map<String,Object> receiveBody;
 	
-	public MVCClient() throws Exception{
+	public MVCClient(){
 		//접속요청
-		client = new Socket("192.168.2.254",7777);	
-		System.out.println("[INIT] Server와 연결 완료");
-
-		//수신스레드 
-		MVCClientRecvThread recv = new MVCClientRecvThread(client,this);
-		Thread th = new Thread(recv);
-		th.start();
-		System.out.println("[INIT] 수신 스레드 생성완료 " + recv);
+		try {
+			client = new Socket("192.168.2.254",7777);
 		
-		this.out = new ObjectOutputStream(client.getOutputStream());
+			System.out.println("[INIT] Server와 연결 완료.." + client);
+
+			this.out = new ObjectOutputStream(client.getOutputStream());
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
 	}
 	
-	
-	
 	public void requestServer(Request request) throws Exception{
+		 
 		 out.writeObject(request);
+		 out.flush();
 		 Thread.sleep(3000);	//수신 대기 
 		 System.out.println("receiveBody : " + receiveBody);
 	}
-
-
 
 	public void recvObjects(Map<String, Object> body) {
 		System.out.println("[INFO] RECV Objects : " + body);

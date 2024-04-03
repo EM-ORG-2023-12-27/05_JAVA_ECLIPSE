@@ -2,6 +2,7 @@ package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,12 +29,12 @@ public class MAINGUI extends JFrame implements ActionListener {
 	JButton btn3;
 	
 	//
-	LoginUI loginUI;
+	public LoginUI loginUI;
 	
 	//
-	MVCClient mVCClient;
+	public MVCClient mVCClient;
 	
-	MAINGUI() throws Exception {
+	public MAINGUI() throws IOException {
 
 		super("MAIN MENU");
 		setBounds(10, 10, 500, 400);
@@ -87,14 +88,18 @@ public class MAINGUI extends JFrame implements ActionListener {
 		loginUI = new LoginUI();
 		loginUI.setVisible(false);
 		loginUI.setMainUI(this);
+		System.out.println("!!!!!!!!!");
 		
 		//소켓 연결 시도 
 		this.mVCClient = new MVCClient(); 
-		
-		//수신 스레드 분리
-		MVCClientRecvThread recv = new MVCClientRecvThread(mVCClient.client, mVCClient);
+		System.out.println("MVCClient : " + mVCClient);
+	
+		//소켓 수신스레드 생성
+		MVCClientRecvThread recv = new MVCClientRecvThread(mVCClient.client,mVCClient);
 		Thread th = new Thread(recv);
 		th.start();
+		System.out.println("[INIT] 수신 스레드 생성완료 " + recv);
+	
 		
 	}
 
