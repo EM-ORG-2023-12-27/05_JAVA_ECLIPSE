@@ -112,7 +112,7 @@ public class UserController implements SubController{
 	
 	private boolean isValid(Integer sessionId) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	private boolean isValid(String username, String password, Integer sessionId) {
 		// NullCheck
