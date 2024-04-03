@@ -3,17 +3,23 @@ package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientBackground;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientRecvThread;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.AUTH.LoginUI;
 
 public class MainGUI extends JFrame implements ActionListener {
@@ -22,6 +28,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	
 	JTable table;
 	JScrollPane tableScroll;
+	JLabel label;
 	JTextField txt;
 	JButton btn1;
 	JButton btn2;
@@ -54,17 +61,19 @@ public class MainGUI extends JFrame implements ActionListener {
 		
 		
 		// 컴포넌트
+		label = new JLabel("BOOKCODE : ");
 		table = new JTable(model);
 		tableScroll = new JScrollPane(table);
 		
-		txt = new JTextField("bookcode");
+		txt = new JTextField();
 		btn1 = new JButton("도서조회");
 		btn2 = new JButton("회원가입");
 		btn3 = new JButton("로그인");
 		
 		
 		// 위치 조정
-		txt.setBounds(10,10,200,30);
+		label.setBounds(10,10,200,15);
+		txt.setBounds(10,30,200,30);
 		btn1.setBounds(350,10,100,30);
 		btn2.setBounds(350,50,100,30);
 		btn3.setBounds(350,90,100,30);
@@ -76,6 +85,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		btn3.addActionListener(this);
 		
 		// 컴포넌트를 패널에 추가
+		panel.add(label);
 		panel.add(txt);
 		panel.add(btn1);
 		panel.add(btn2);
@@ -113,8 +123,57 @@ public class MainGUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource()==btn1) {
-			System.out.println("BTN1 CLICK ");
+		if(e.getSource()==btn1)	//도서조회 
+		{
+			String bookCode =  txt.getText();
+			System.out.println("BTN1 CLICK bookCode " + bookCode);
+			
+			
+			Request request = new Request();
+			Map<String,Object> body = new HashMap();
+			body.put("uri", "/book");
+			Map<String,Object> params = new HashMap();
+			Integer serviceNo =-1;
+			if(bookCode.equals("")) {
+				body.put("serviceNo", 4); //전체 조회
+				serviceNo=4;
+			}
+			else {
+				body.put("serviceNo", 5); //bookCode 조회
+				serviceNo=5;
+				params.put("bookCode", Integer.parseInt(bookCode));
+				body.put("params", params);
+			}
+
+			request.setBody(body);
+			try {				
+				clientBackground.requestServer(request);
+				Thread.sleep(3000);
+			} catch (Exception e1) {			
+				e1.printStackTrace();
+			}
+
+			Map<String,Object>response =  clientBackground.receiveBody;
+			System.out.println("MAIN GUI Response : " + response);
+			
+			List<BookDto> list =  (List<BookDto>) response.get("list");
+			System.out.println("LIST : " + list);
+			
+			//Table Setting
+			//테이블 구조생성		
+			String[] column = {"도서코드", "도서명", "출판사","ISBN"};
+			Object[][] data = {};
+			DefaultTableModel model = new DefaultTableModel(data,column);
+			for(BookDto dto : list) {
+				Object[] rowData = {dto.getBookCode(),dto.getBookName(),dto.getPublisher(),dto.getIsbn()};
+				model.addRow(rowData);
+			}
+
+			table.setModel(model);
+
+			
+	
+			
 		}
 		else if(e.getSource()==btn2) {
 			System.out.println("BTN2 CLICK ");

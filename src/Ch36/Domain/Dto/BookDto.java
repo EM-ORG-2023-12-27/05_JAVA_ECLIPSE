@@ -1,6 +1,9 @@
 package Ch36.Domain.Dto;
 
-public class BookDto {
+import java.io.Serializable;
+
+public class BookDto  implements Serializable{
+	
 	private int bookCode;
 	private String bookName;
 	private String publisher;

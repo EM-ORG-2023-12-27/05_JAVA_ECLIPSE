@@ -2,8 +2,9 @@ package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service;
 
 import java.util.List;
 
-import Ch36.Domain.Dao.BookDaoImpl;
-import Ch36.Domain.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.BookDaoImpl;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+
 
 public class BookServiceImpl {
 	

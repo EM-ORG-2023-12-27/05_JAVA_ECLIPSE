@@ -1,6 +1,11 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto;
 
-public class BookDto {
+import java.io.Serializable;
+
+public class BookDto  implements Serializable{
+	private static final long serialVersionUID = 3L;
+
+	
 	private int bookCode;
 	private String bookName;
 	private String publisher;

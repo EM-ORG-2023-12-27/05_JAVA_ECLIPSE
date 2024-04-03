@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import Ch36.Domain.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+
+
 
 public class BookDaoImpl {
 	private String url ="jdbc:mysql://localhost:3306/bookdb";

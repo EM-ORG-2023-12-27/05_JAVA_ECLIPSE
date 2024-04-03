@@ -30,7 +30,6 @@ public class ClientBackground {
 	public void requestServer(Request request) throws Exception{
 		out.writeObject(request);
 		out.flush();
-		Thread.sleep(3000);	//수신 대기 
 		System.out.println("[Client] requestServer's receiveBody : " + receiveBody);
 	}
 

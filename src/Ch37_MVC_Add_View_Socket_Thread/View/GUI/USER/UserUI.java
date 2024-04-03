@@ -105,8 +105,10 @@ public class UserUI  extends JFrame implements ActionListener{
 			
 			
 			Map<String,Object> response = null;
+			
 			try {			
 				mainGUI.clientBackground.requestServer(request);
+				Thread.sleep(3000);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

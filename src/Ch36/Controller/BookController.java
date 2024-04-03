@@ -1,6 +1,7 @@
 package Ch36.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Ch36.Domain.Dto.BookDto;
@@ -67,10 +68,59 @@ public class BookController implements SubController{
 		else if(serviceNo==4) //SELECTALL
 		{
 			System.out.println("");
+			//파라미터
+			//유효성
+			//서비스
+			List<BookDto> list =null;
+			try {
+			
+				list =   service.getAllBooks();
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//뷰
+			Map<String,Object> response = new HashMap();
+			if(list!=null) {
+				response.put("response", true);
+				response.put("msg", "조회 성공 list : " + list);
+				response.put("list", list);
+			}else {
+				response.put("msg", "조회 실패");
+				response.put("response", false);
+			}
+			return response;
 		}
 		else if(serviceNo==5) //SELECTONE
 		{
 			System.out.println("");
+			//파라미터
+			//유효성
+			//서비스
+			Integer bookCode = (Integer) params.get("bookCode");
+			BookDto dto = null;
+			try {
+				if(bookCode!=null)
+					dto =service.getBook(bookCode);
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//뷰
+			Map<String,Object> response = new HashMap();
+			if(dto!=null) {
+				response.put("response", true);
+				response.put("msg", "조회 성공 bookDto : " + dto);
+				response.put("bookDto", dto);
+			}else {
+				response.put("response", false);
+				response.put("msg", "조회 실패");
+			}
+			return response;
 		}
 		else
 		{

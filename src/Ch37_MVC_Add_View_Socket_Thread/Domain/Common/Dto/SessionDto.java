@@ -1,6 +1,11 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto;
 
-public class SessionDto {
+import java.io.Serializable;
+
+public class SessionDto  implements Serializable{
+	private static final long serialVersionUID = 4L;
+
+	
 	private int sessionId;
 	private String username;
 	private String role;

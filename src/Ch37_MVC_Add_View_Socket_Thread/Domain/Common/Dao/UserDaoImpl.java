@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import Ch36.Domain.Dto.SessionDto;
-import Ch36.Domain.Dto.UserDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.UserDto;
+
+
 
 public class UserDaoImpl {
 	private String url ="jdbc:mysql://localhost:3306/bookdb";
