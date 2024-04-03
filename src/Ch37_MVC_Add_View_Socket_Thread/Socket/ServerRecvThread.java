@@ -1,4 +1,4 @@
-package Ch37_MVC_Add_View_Socket_Thread;
+package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -6,22 +6,23 @@ import java.net.Socket;
 import java.util.Map;
 
 import Ch37_MVC_Add_View_Socket_Thread.Controller.FrontController;
-import Ch37_MVC_Add_View_Socket_Thread.View.Request;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
 
-public class MVCServerRecvThread  implements Runnable{
+public class ServerRecvThread  implements Runnable{
 	String clientIp;
 	Socket client;
 	ObjectInputStream Din;
-	MVCserver mvcServer;
+	
+	ServerBackground serverBackground;
 	FrontController frontController;
 	
-	public MVCServerRecvThread(Socket client,MVCserver mvcServer){
+	public ServerRecvThread(Socket client,ServerBackground serverBackground){
 		frontController = new FrontController();
 		
 		this.client=client;
-		this.mvcServer = mvcServer;
+		this.serverBackground = serverBackground;
 		this.clientIp = client.getInetAddress().toString();
-		
+		System.out.println("ServerRecvThread's clientIp : " + clientIp);
 		try {
 			Din = new ObjectInputStream(client.getInputStream());
 			
@@ -46,11 +47,11 @@ public class MVCServerRecvThread  implements Runnable{
 					Map<String,Object> params = (Map<String,Object>)body.get("params");
 
 					System.out.printf("%s : %s , %s , %s\n",clientIp,uri,serviceNo,params);
-					//요구사항 요청
+					// 요구사항 요청(to MVC)
 					Map<String,Object> returnValue =  frontController.execute(uri, serviceNo, params);
 					//결과 Send하기
-					System.out.println("[MVC] resultVal : " + returnValue);
-					mvcServer.Response(clientIp, returnValue);
+					System.out.println("[SERVER RECV MVC RESULT] : " + returnValue);
+					serverBackground.Response(clientIp, returnValue);
 					
 				}	
 				

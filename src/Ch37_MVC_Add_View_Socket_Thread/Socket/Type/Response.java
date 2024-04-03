@@ -1,17 +1,16 @@
-package Ch37_MVC_Add_View_Socket_Thread.View;
+package Ch37_MVC_Add_View_Socket_Thread.Socket.Type;
 
 import java.io.Serializable;
 import java.util.Map;
 
-public class Request implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class Response  implements Serializable{
+	private static final long serialVersionUID = 2L;
 
-	
 	private Map<String,Object> header;
 	private Map<String,Object> body;
 	
-	public Request() {}
-	public Request(Map<String, Object> header, Map<String, Object> body) {
+	public Response() {}
+	public Response(Map<String, Object> header, Map<String, Object> body) {
 		super();
 		this.header = header;
 		this.body = body;

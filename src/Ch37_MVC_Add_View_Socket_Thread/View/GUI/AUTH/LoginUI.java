@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Ch37_MVC_Add_View_Socket_Thread.View.MVCClient;
-import Ch37_MVC_Add_View_Socket_Thread.View.Request;
-import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MAINGUI;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientBackground;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
+import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MainGUI;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MEMBER.MemberUI;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.USER.UserUI;
 
@@ -26,12 +26,12 @@ public class LoginUI extends JFrame implements ActionListener{
 	JButton login_btn;
 	
 	//
-	MAINGUI maingui;
+	MainGUI mainGUI;
 	MemberUI membergui;
 	UserUI usergui;
 	
 	//
-	MVCClient mVCClient;
+	ClientBackground clientBackground;
 	
 	public LoginUI(){
 		super("MAIN MENU");
@@ -70,14 +70,16 @@ public class LoginUI extends JFrame implements ActionListener{
 		usergui = new UserUI();
 		
 
+		
+		//X 버튼 이벤트 처리
 		addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
-            	
-            	
-            	maingui.setVisible(true);
+            public void windowClosing(WindowEvent e) { 	
+            	mainGUI.setVisible(true);
             }
         });
+		
+		
 		
 	}
 
@@ -86,8 +88,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		if(e.getSource()==login_btn) {
 			System.out.println("LOGIN_BTN");
 			
-			//로그인 체크
-			
+			//로그인 체크		
 			Request request = new Request();
 			Map<String,Object> body = new HashMap();
 			body.put("uri","/user");
@@ -95,13 +96,12 @@ public class LoginUI extends JFrame implements ActionListener{
 			Map<String,Object> params = new HashMap();
 			params.put("username", id_txt.getText());
 			params.put("password", pw_txt.getText());
-			params.put("sessionId", maingui.mySessionId);
+			params.put("sessionId", mainGUI.mySessionId);
 			body.put("params", params);
 			request.setBody(body);
-
-			
+	
 			try {
-				mVCClient.requestServer(request);
+				clientBackground.requestServer(request);
 				Thread.sleep(3000);
 			
 			} catch (Exception e1) {
@@ -109,25 +109,30 @@ public class LoginUI extends JFrame implements ActionListener{
 				e1.printStackTrace();
 			}
 			Map<String,Object>response = null;
-			response =  mVCClient.receiveBody;
+			response =  clientBackground.receiveBody;
 			System.out.println("[LOGINUI] response : " + response);
-			boolean isLogined =  (Boolean)response.get("response");
-			if(isLogined) {
-				Integer sessionId = (Integer)response.get("sessionId");
-				System.out.println("[LOGINUI] SESSIONID : " + sessionId);
-				maingui.mySessionId = sessionId;
+			if(response!=null) {
 				
-				String message = (String)response.get("msg");
-				JOptionPane.showMessageDialog(null, message);
-				//역할별로 UI창 띄우기(ROLE_USER)
-				this.setVisible(false);
-				membergui.setVisible(true);
-			}else {
-				
-				System.out.println("로그인 실패");
-				String message = (String)response.get("msg");
-				JOptionPane.showMessageDialog(null, "로그인실패 : " + message);
+				boolean isLogined =  (Boolean)response.get("response");
+				if(isLogined) {
+					Integer sessionId = (Integer)response.get("sessionId");
+					System.out.println("[LOGINUI] SESSIONID : " + sessionId);
+					mainGUI.mySessionId = sessionId;
+					
+					String message = (String)response.get("msg");
+					JOptionPane.showMessageDialog(null, message);
+					//역할별로 UI창 띄우기(ROLE_USER)
+					this.setVisible(false);
+					membergui.setVisible(true);
+				}else {
+					
+					System.out.println("로그인 실패");
+					String message = (String)response.get("msg");
+					JOptionPane.showMessageDialog(null, "로그인실패 : " + message);
+				}
+		
 			}
+
 			
 			
 			
@@ -152,14 +157,14 @@ public class LoginUI extends JFrame implements ActionListener{
 	}
 	
 	//
-	public void setMainUI(MAINGUI maingui) {
-		this.maingui = maingui;
-		membergui.setMainUI(maingui);
-		usergui.setMainUI(maingui);
+	public void setMainUI(MainGUI mainGUI) {
+		this.mainGUI = mainGUI;
+		membergui.setMainUI(mainGUI);
+		usergui.setMainUI(mainGUI);
 	}
 
-	public void setMVCClient(MVCClient mvcClient) {
-		this.mVCClient = mvcClient;
+	public void setMVCClient(ClientBackground mvcClient) {
+		this.clientBackground = mvcClient;
 	}
 	
 	

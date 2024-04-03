@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MAINGUI;
+import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MainGUI;
 
 public class UserUI  extends JFrame implements ActionListener{
 
@@ -19,7 +19,7 @@ public class UserUI  extends JFrame implements ActionListener{
 	JButton 나의정보_btn;
 	JButton 로그아웃_btn;
 
-	MAINGUI maingui;
+	MainGUI mainGUI;
 	
 	public UserUI(){
 		super("USER UI");
@@ -68,14 +68,14 @@ public class UserUI  extends JFrame implements ActionListener{
             public void windowClosing(WindowEvent e) {
             	// 로그아웃 처리
             	// 메인 창 활성화
-            	maingui.setVisible(true);
+            	mainGUI.setVisible(true);
             }
         });
 	}
 	
 
-	public void setMainUI(MAINGUI maingui) {
-		this.maingui = maingui;
+	public void setMainUI(MainGUI mainGUI) {
+		this.mainGUI = mainGUI;
 	}
 
 

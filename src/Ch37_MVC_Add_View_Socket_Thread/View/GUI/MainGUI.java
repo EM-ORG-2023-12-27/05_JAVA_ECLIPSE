@@ -12,12 +12,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import Ch37_MVC_Add_View_Socket_Thread.MVCServerRecvThread;
-import Ch37_MVC_Add_View_Socket_Thread.View.MVCClient;
-import Ch37_MVC_Add_View_Socket_Thread.View.MVCClientRecvThread;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientBackground;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientRecvThread;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.AUTH.LoginUI;
 
-public class MAINGUI extends JFrame implements ActionListener {
+public class MainGUI extends JFrame implements ActionListener {
 
 	
 	
@@ -35,9 +34,9 @@ public class MAINGUI extends JFrame implements ActionListener {
 	public Integer mySessionId;
 	
 	//
-	public MVCClient mVCClient;
+	public ClientBackground clientBackground;
 	
-	public MAINGUI() throws IOException {
+	public MainGUI() throws IOException {
 
 		super("MAIN MENU");
 		setBounds(10, 10, 500, 400);
@@ -94,11 +93,11 @@ public class MAINGUI extends JFrame implements ActionListener {
 		this.mySessionId = 0;	//로그인된상태x
 		
 		//소켓 연결 시도 
-		this.mVCClient = new MVCClient(); 
-		System.out.println("MVCClient : " + mVCClient);
+		this.clientBackground = new ClientBackground(); 
+		System.out.println("MVCClient : " + clientBackground);
 	
 		//소켓 수신스레드 생성
-		MVCClientRecvThread recv = new MVCClientRecvThread(mVCClient.client,mVCClient);
+		ClientRecvThread recv = new ClientRecvThread(clientBackground.client,clientBackground);
 		Thread th = new Thread(recv);
 		th.start();
 		System.out.println("[INIT] 수신 스레드 생성완료 " + recv);
@@ -123,11 +122,16 @@ public class MAINGUI extends JFrame implements ActionListener {
 			
 			loginUI.setVisible(true);
 			loginUI.setMainUI(this);
-			System.out.println("MVCCLIENT : " + mVCClient);
-			loginUI.setMVCClient(mVCClient);
+			System.out.println("MVCCLIENT : " + clientBackground);
+			loginUI.setMVCClient(clientBackground);
 			this.setVisible(false);
 			
 		}
 		
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		new MainGUI();
 	}
 }

@@ -1,4 +1,4 @@
-package Ch37_MVC_Add_View_Socket_Thread;
+package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,18 +8,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MVCserver {
+import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Response;
+
+public class ServerBackground {
 	
 	ServerSocket server;
-	Map<String,Socket> ClientList; //!!
+	Map<String,Socket> ClientList; 
 	Socket client;
+	 
 	
-	
-	public MVCserver(){
+	public ServerBackground(){
 		
 		ClientList = new HashMap();
 		Collections.synchronizedMap(ClientList);//컬렉션 동기화 
 		System.out.println("[INFO]MVC Server INIT");
+		
 	}
 	
 	//Client 접속 요청 수신용
@@ -32,7 +35,7 @@ public class MVCserver {
 				System.out.println(client.getInetAddress()+" 에서 접속중..");
 				
 				//수신 스레드 처리 
-				MVCServerRecvThread recv = new MVCServerRecvThread(client,this);
+				ServerRecvThread recv = new ServerRecvThread(client,this);
 				Thread th = new Thread(recv);
 				th.start();
 				
@@ -53,14 +56,17 @@ public class MVCserver {
 	}
 	
 	//서버->클라이언트 응답용
-	synchronized public void Response(String ip, Map<String,Object> returnValue) throws IOException {
+	public void Response(String ip, Map<String,Object> returnValue) throws IOException {
 		
 		Socket client =  ClientList.get(ip);
+		System.out.println("Server  response's client : " + client);
 		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 		Response response = new Response();
 		response.setBody(returnValue);
 		out.writeObject(response);
 		out.flush();
+		
+		
 	}
 	
 	

@@ -1,9 +1,13 @@
 package Ch37_MVC_Add_View_Socket_Thread;
 
+import java.io.IOException;
+
+import Ch37_MVC_Add_View_Socket_Thread.Socket.ServerBackground;
+
 public class Application {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		new MVCserver().listenServer();
+		new ServerBackground().listenServer();
 	}
 }

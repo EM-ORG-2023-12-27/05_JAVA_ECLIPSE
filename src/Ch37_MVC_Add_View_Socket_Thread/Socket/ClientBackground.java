@@ -1,4 +1,4 @@
-package Ch37_MVC_Add_View_Socket_Thread.View;
+package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -6,21 +6,19 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Map;
 
-import Ch37_MVC_Add_View_Socket_Thread.MVCServerRecvThread;
+import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
 
-public class MVCClient {
+public class ClientBackground {
 	public Socket client;
-	public ObjectOutputStream out;
 	public Map<String,Object> receiveBody;
 	
-	public MVCClient(){
+	public ClientBackground(){
 		//접속요청
 		try {
-			client = new Socket("192.168.2.254",8888);
-		
+			client = new Socket("172.22.224.1",8888);
 			System.out.println("[INIT] Server와 연결 완료.." + client);
 
-			this.out = new ObjectOutputStream(client.getOutputStream());
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -30,15 +28,16 @@ public class MVCClient {
 	}
 	
 	public void requestServer(Request request) throws Exception{
-		 
-		 out.writeObject(request);
-		 out.flush();
-		 Thread.sleep(3000);	//수신 대기 
-		 System.out.println("receiveBody : " + receiveBody);
+		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+		out.writeObject(request);
+		out.flush();
+		out.close();
+		Thread.sleep(3000);	//수신 대기 
+		System.out.println("[Client] requestServer's receiveBody : " + receiveBody);
 	}
 
 	public void recvObjects(Map<String, Object> body) {
-		System.out.println("[INFO] RECV Objects : " + body);
+		System.out.println("[Client] recvObjects's receiveBody : " + body);
 		this.receiveBody = body;
 	}
 		 
