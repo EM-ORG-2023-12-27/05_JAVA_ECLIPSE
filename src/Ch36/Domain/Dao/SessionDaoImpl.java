@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import Ch36.Domain.Dto.BookDto;
 import Ch36.Domain.Dto.SessionDto;
 
 public class SessionDaoImpl {
@@ -67,6 +70,27 @@ public class SessionDaoImpl {
 		int result = pstmt.executeUpdate();
 		pstmt.close();
 		return  result>0;
+	}
+	
+	//SELECTALL
+	public List<SessionDto> SelectAll() throws Exception{
+		pstmt = conn.prepareStatement("select * from session");
+		rs =  pstmt.executeQuery();
+		List<SessionDto> list = new ArrayList();
+		SessionDto dto = null;
+		if(rs!=null)
+		{
+			while(rs.next()) {
+				dto = new SessionDto();
+				dto.setUsername(rs.getString("username"));
+				dto.setSessionId(rs.getInt("id"));
+				dto.setRole(rs.getString("role"));
+				list.add(dto);
+			}
+		}	
+		rs.close();
+		pstmt.close();
+		return list;
 	}
 	
 	

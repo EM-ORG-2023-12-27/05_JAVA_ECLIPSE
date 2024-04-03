@@ -28,6 +28,14 @@ public class UserServiceImpl {
 		sessionDao = new SessionDaoImpl();
 		
 		SessionIdList=new ArrayList();
+		
+		//접속중인 sessionid를 session테이블에서 list로 저장
+		List<SessionDto> tmpList =sessionDao.SelectAll();
+		for(SessionDto dto : tmpList) {
+			SessionIdList.add(dto.getSessionId());
+		}
+		
+		
 	}
 	
 	//회원가입
