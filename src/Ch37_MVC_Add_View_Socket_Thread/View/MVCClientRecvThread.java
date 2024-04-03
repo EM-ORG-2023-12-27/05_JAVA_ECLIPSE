@@ -14,39 +14,45 @@ public class MVCClientRecvThread  implements Runnable{
 	public MVCClient mvcClient;
 	public ObjectInputStream in;
 	
+	
 	public MVCClientRecvThread(Socket client, MVCClient mvcClient) throws IOException {
 		this.client =client;
 		this.mvcClient = mvcClient;
-		this.in = new ObjectInputStream(client.getInputStream());
+
 	}
 
 	@Override
 	public void run() {
 		
-			Object recv=null;
+			
+			Object recv = new Response();
 			while(true)
 			{
 		
 				try {
+					in = new ObjectInputStream(client.getInputStream());
 					recv= in.readObject();
-				}catch (EOFException e) {
-					System.out.println("EOF..수신된 내용없음");
 				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
+				}
+				//데이터 직렬화/역직렬화 구조 문제 해결 line-31 
+				//java.io.StreamCorruptedException: invalid type code: AC
+				
 				
 				//클라이언트의 전달 메시지를 수신
 				if(recv!=null) {
-					
-					Response response  = (Response)recv;
-					Map<String,Object>body =  response.getBody();
-					
-					mvcClient.recvObjects(body);
-
-					
+						
+						Response response  = (Response)recv;
+						Map<String,Object>body =  response.getBody();
+						
+						mvcClient.recvObjects(body);		
 				}	
+					
+			
 				
 			}	
 	

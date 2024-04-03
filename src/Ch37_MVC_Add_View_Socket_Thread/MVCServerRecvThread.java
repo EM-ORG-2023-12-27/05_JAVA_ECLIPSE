@@ -57,7 +57,7 @@ public class MVCServerRecvThread  implements Runnable{
 			}	
 		}catch(Exception e) {
 			e.printStackTrace();	
-			mvcServer.removeClient(this.clientIp);
+			//mvcServer.removeClient(this.clientIp);
 		}
 	}
 	

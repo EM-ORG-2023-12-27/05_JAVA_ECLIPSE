@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -84,26 +85,52 @@ public class LoginUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==login_btn) {
 			System.out.println("LOGIN_BTN");
+			
 			//로그인 체크
 			
 			Request request = new Request();
 			Map<String,Object> body = new HashMap();
 			body.put("uri","/user");
-			body.put("serviceNo", 5);
+			body.put("serviceNo", 6);	//로그인 요청
 			Map<String,Object> params = new HashMap();
 			params.put("username", id_txt.getText());
 			params.put("password", pw_txt.getText());
+			params.put("sessionId", maingui.mySessionId);
 			body.put("params", params);
 			request.setBody(body);
 
+			
 			try {
 				mVCClient.requestServer(request);
-			
+				Thread.sleep(3000);
 			
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			Map<String,Object>response = null;
+			response =  mVCClient.receiveBody;
+			System.out.println("[LOGINUI] response : " + response);
+			boolean isLogined =  (Boolean)response.get("response");
+			if(isLogined) {
+				Integer sessionId = (Integer)response.get("sessionId");
+				System.out.println("[LOGINUI] SESSIONID : " + sessionId);
+				maingui.mySessionId = sessionId;
+				
+				String message = (String)response.get("msg");
+				JOptionPane.showMessageDialog(null, message);
+				//역할별로 UI창 띄우기(ROLE_USER)
+				this.setVisible(false);
+				membergui.setVisible(true);
+			}else {
+				
+				System.out.println("로그인 실패");
+				String message = (String)response.get("msg");
+				JOptionPane.showMessageDialog(null, "로그인실패 : " + message);
+			}
+			
+			
+			
 			
 			
 			

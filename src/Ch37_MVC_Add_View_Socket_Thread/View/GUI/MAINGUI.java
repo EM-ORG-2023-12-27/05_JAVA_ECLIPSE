@@ -32,6 +32,9 @@ public class MAINGUI extends JFrame implements ActionListener {
 	public LoginUI loginUI;
 	
 	//
+	public Integer mySessionId;
+	
+	//
 	public MVCClient mVCClient;
 	
 	public MAINGUI() throws IOException {
@@ -88,7 +91,7 @@ public class MAINGUI extends JFrame implements ActionListener {
 		loginUI = new LoginUI();
 		loginUI.setVisible(false);
 		loginUI.setMainUI(this);
-		System.out.println("!!!!!!!!!");
+		this.mySessionId = 0;	//로그인된상태x
 		
 		//소켓 연결 시도 
 		this.mVCClient = new MVCClient(); 

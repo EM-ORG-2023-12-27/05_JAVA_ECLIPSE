@@ -16,7 +16,7 @@ public class MVCClient {
 	public MVCClient(){
 		//접속요청
 		try {
-			client = new Socket("192.168.2.254",7777);
+			client = new Socket("192.168.2.254",8888);
 		
 			System.out.println("[INIT] Server와 연결 완료.." + client);
 
