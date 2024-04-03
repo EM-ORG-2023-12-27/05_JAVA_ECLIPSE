@@ -15,7 +15,7 @@ public class ClientBackground {
 	public ClientBackground(){
 		//접속요청
 		try {
-			client = new Socket("172.22.224.1",8888);
+			client = new Socket("172.30.1.70",8888);
 			System.out.println("[INIT] Server와 연결 완료.." + client);
 			out = new ObjectOutputStream(client.getOutputStream());
 			

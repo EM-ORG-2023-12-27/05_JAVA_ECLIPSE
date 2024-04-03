@@ -48,7 +48,7 @@ public class SessionDaoImpl {
 		return dto;
 	}
 	public SessionDto Select(String username) throws Exception {
-		pstmt = conn.prepareStatement("select * from session where username=?");
+		pstmt = conn.prepareStatement("select * from session where username=? order by id desc");
 		pstmt.setString(1,username);
 		rs=pstmt.executeQuery();
 		SessionDto dto=null;
