@@ -58,14 +58,71 @@ public class UserController implements SubController{
 			
 		}else if(serviceNo==6) {
 			
+			// 01 파라미터
+			String username =(String) params.get("username");
+			String password =(String) params.get("password");
+			Integer sessionId = (Integer)params.get("sessionId");
+						
+			
+			// 02 입력값(Data)
+			if(!isValid(username,password,sessionId)) {
+				return null;
+			}
+			// 03 서비스
+			Map<String,Object> response = null;
+			try {
+				response = userService.login(username, password, sessionId);
+				
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// 04 뷰 
+			return response;
+			
+			
 		}else if(serviceNo==7) {
+			//파라미터 
+			Integer sessionId =(Integer)params.get("sessionId");
+			
+			//입력값 검증
+			Map<String,Object> response =null;
+			if(!isValid(sessionId)) {
+				response = new HashMap();
+				response.put("response", false);
+				response.put("msg", "Data Validation Check Error..");
+				return response;
+			}
+				
+			//서비스		
+			try {
+				response = userService.logout(sessionId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//뷰
+			return response;
 			
 		}else {
 			;
 		}
 		return null;
 	}
+	
+	private boolean isValid(Integer sessionId) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	private boolean isValid(String username, String password, Integer sessionId) {
+		// NullCheck
+		// trim
+		return true;
+	}
 	private boolean isValid(UserDto dto) {
+		// NullCheck
+		// trim
 		return true;
 	}
 
