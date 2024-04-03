@@ -67,7 +67,10 @@ public class LoginUI extends JFrame implements ActionListener{
 		
 		
 		membergui = new MemberUI();
+		membergui.setMainUI(mainGUI);
+		
 		usergui = new UserUI();
+		usergui.setMainUI(mainGUI);
 		
 
 		
@@ -110,20 +113,27 @@ public class LoginUI extends JFrame implements ActionListener{
 			}
 			Map<String,Object>response = null;
 			response =  clientBackground.receiveBody;
-			System.out.println("[LOGINUI] response : " + response);
+			System.out.println("LoginUI response : " + response);
 			if(response!=null) {
 				
 				boolean isLogined =  (Boolean)response.get("response");
 				if(isLogined) {
+					
 					Integer sessionId = (Integer)response.get("sessionId");
-					System.out.println("[LOGINUI] SESSIONID : " + sessionId);
+					System.out.println("LoginUI SESSIONID : " + sessionId);
 					mainGUI.mySessionId = sessionId;
 					
 					String message = (String)response.get("msg");
 					JOptionPane.showMessageDialog(null, message);
+					
+					
 					//역할별로 UI창 띄우기(ROLE_USER)
 					this.setVisible(false);
-					membergui.setVisible(true);
+					usergui.setVisible(true);
+					
+					
+					
+					
 				}else {
 					
 					System.out.println("로그인 실패");

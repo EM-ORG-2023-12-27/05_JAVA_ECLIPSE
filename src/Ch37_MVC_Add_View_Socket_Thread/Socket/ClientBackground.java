@@ -11,13 +11,13 @@ import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
 public class ClientBackground {
 	public Socket client;
 	public Map<String,Object> receiveBody;
-	
+	ObjectOutputStream out;
 	public ClientBackground(){
 		//접속요청
 		try {
 			client = new Socket("172.22.224.1",8888);
 			System.out.println("[INIT] Server와 연결 완료.." + client);
-
+			out = new ObjectOutputStream(client.getOutputStream());
 			
 			
 		} catch (IOException e) {
@@ -28,10 +28,8 @@ public class ClientBackground {
 	}
 	
 	public void requestServer(Request request) throws Exception{
-		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 		out.writeObject(request);
 		out.flush();
-		out.close();
 		Thread.sleep(3000);	//수신 대기 
 		System.out.println("[Client] requestServer's receiveBody : " + receiveBody);
 	}

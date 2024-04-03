@@ -21,7 +21,7 @@ public class ServerBackground {
 		
 		ClientList = new HashMap();
 		Collections.synchronizedMap(ClientList);//컬렉션 동기화 
-		System.out.println("[INFO]MVC Server INIT");
+		System.out.println("ServerBackground");
 		
 	}
 	
@@ -30,28 +30,31 @@ public class ServerBackground {
 		try {
 			server = new ServerSocket(8888);
 			while(true) {
-				System.out.println("[INFO] SERVER LISTEN");
+				System.out.println("ServerBackground listenServer's Init");
 				client=server.accept();
-				System.out.println(client.getInetAddress()+" 에서 접속중..");
+				System.out.println("ServerBackground listenServer's " + client.getInetAddress()+" Accept");
 				
 				//수신 스레드 처리 
 				ServerRecvThread recv = new ServerRecvThread(client,this);
 				Thread th = new Thread(recv);
 				th.start();
+				System.out.println("ServerBackground listenServer's recv Thread" + recv);
 				
 				//Server클라이언트 등록(IP주소 : Socket)
 				ClientList.put(client.getInetAddress().toString(),client);
+				System.out.println("ServerBackground listenServer's clientCount : " + ClientList.size());
 
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	//클라이언트 접속 제거
 	public void removeClient(String ip) {
-		System.out.println("[INFO] " + ip + " 와의 연결을 종료합니다.");
+		System.out.println("ServerBackground removeClient's " + ip + " session Close..");
 		ClientList.remove(ip);
 	}
 	
@@ -59,14 +62,12 @@ public class ServerBackground {
 	public void Response(String ip, Map<String,Object> returnValue) throws IOException {
 		
 		Socket client =  ClientList.get(ip);
-		System.out.println("Server  response's client : " + client);
+		System.out.println("ServerBackground  response's client : " + client);
 		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 		Response response = new Response();
 		response.setBody(returnValue);
 		out.writeObject(response);
 		out.flush();
-		
-		
 	}
 	
 	

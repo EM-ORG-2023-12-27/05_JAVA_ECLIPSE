@@ -102,6 +102,7 @@ public class UserServiceImpl {
 		return result;
 		
 	}
+	
 	//로그아웃
 	public Map<String,Object> logout(int SessionId) throws Exception {
 		

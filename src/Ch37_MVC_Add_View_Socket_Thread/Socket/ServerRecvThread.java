@@ -22,7 +22,7 @@ public class ServerRecvThread  implements Runnable{
 		this.client=client;
 		this.serverBackground = serverBackground;
 		this.clientIp = client.getInetAddress().toString();
-		System.out.println("ServerRecvThread's clientIp : " + clientIp);
+		System.out.println("ServerRecvThread's init ClientIp : " + clientIp);
 		try {
 			Din = new ObjectInputStream(client.getInputStream());
 			
@@ -46,19 +46,23 @@ public class ServerRecvThread  implements Runnable{
 					Integer serviceNo =(Integer)body.get("serviceNo");
 					Map<String,Object> params = (Map<String,Object>)body.get("params");
 
-					System.out.printf("%s : %s , %s , %s\n",clientIp,uri,serviceNo,params);
+					System.out.printf("ServerRecvThread run's %s : %s , %s , %s\n",clientIp,uri,serviceNo,params);
 					// 요구사항 요청(to MVC)
 					Map<String,Object> returnValue =  frontController.execute(uri, serviceNo, params);
 					//결과 Send하기
-					System.out.println("[SERVER RECV MVC RESULT] : " + returnValue);
+					System.out.println("ServerRecvThread run's mvc returnVal : " + returnValue);
 					serverBackground.Response(clientIp, returnValue);
 					
 				}	
 				
 			}	
+			
 		}catch(Exception e) {
-			e.printStackTrace();	
-			//mvcServer.removeClient(this.clientIp);
+			//e.printStackTrace();	
+			System.out.println("ServerRecvThread run's Exception.. e "+e);			
+			serverBackground.removeClient(this.clientIp);
+			System.out.println("ServerRecvThread run's Exception.. client : "+clientIp + " removed..");
+			
 		}
 	}
 	

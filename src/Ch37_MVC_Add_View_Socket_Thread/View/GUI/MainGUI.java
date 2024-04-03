@@ -82,6 +82,9 @@ public class MainGUI extends JFrame implements ActionListener {
 		panel.add(btn3);
 		panel.add(tableScroll);
 		
+		//EVENT
+		
+		
 		add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -90,6 +93,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		loginUI = new LoginUI();
 		loginUI.setVisible(false);
 		loginUI.setMainUI(this);
+	
 		this.mySessionId = 0;	//로그인된상태x
 		
 		//소켓 연결 시도 
