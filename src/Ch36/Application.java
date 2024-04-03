@@ -2,6 +2,7 @@ package Ch36;
 
 import java.util.Map;
 
+import Ch36.Domain.Dto.UserDto;
 import Ch36.Domain.Service.UserServiceImpl;
 
 public class Application {
@@ -64,6 +65,7 @@ public class Application {
 		
 		//09
 		UserServiceImpl service = new UserServiceImpl();
+//		service.UserJoin(new UserDto("user1","1234","ROLE_USER",false));
 		
 		//로그인실패 : 존재하지 않는계정
 //		Map<String,Object> islogin1= service.login("user5","1234", 0);
@@ -74,13 +76,17 @@ public class Application {
 //		System.out.println("islogin2 : " + islogin2);
 //		
 //		//로그인성공 : 계정은 존재하나 패스워드 불일치
-		Map<String,Object>  islogin3= service.login("user2","1234", 0);
+		Map<String,Object>  islogin3= service.login("user3","1234", 0);
 		System.out.println("islogin3 : " + islogin3);
 		Integer mySessionId = (Integer)islogin3.get("sessionId");
+//		
+//		//로그인실패 : 기존 로그인된 계정이 존재
+//		Map<String,Object>  islogin4= service.login("user2","1234", mySessionId);
+//		System.out.println("islogin4 : " + islogin4);
 		
-		//로그인실패 : 기존 로그인된 계정이 존재
-		Map<String,Object>  islogin4= service.login("user2","1234", mySessionId);
-		System.out.println("islogin4 : " + islogin4);
+		Map<String,Object>  isLogout01= service.logout(mySessionId);
+		System.out.println("isLogout01 :" + isLogout01);
+		
 	}
 	
 	

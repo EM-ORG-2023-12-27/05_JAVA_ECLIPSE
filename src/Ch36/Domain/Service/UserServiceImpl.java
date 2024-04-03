@@ -95,13 +95,35 @@ public class UserServiceImpl {
 		
 	}
 	//로그아웃
-	public boolean logout(int SessionId) {
+	public Map<String,Object> logout(int SessionId) throws Exception {
+		
+		Map<String,Object> response = new HashMap();
 		
 		//1 sessionList에 sessionId 있는지 확인
-		//2 List에서 sessionId 제거
-		//3 Session테이블에서 dto 삭제
+		boolean isExisted =  SessionIdList.contains(SessionId);	
+		//System.out.println("isExised : " + isExised);
+		if(!isExisted) {
+			response.put("response", false);
+			response.put("msg", "현재 로그인된 상태가 아닙니다.");
+			return response;
+		}
 		
-		return false;
+
+		//2 Session테이블에서 dto 삭제
+		boolean isremoved =  sessionDao.Delete(SessionId);
+		if(!isremoved) {
+			response.put("response", false);
+			response.put("msg","시스템 상의 문제로 세션삭제가 불가합니다.관리자에게 문의해주세요");
+			return response;
+		}
+		//3 List에서 sessionId 제거
+		boolean isremoved2 =  SessionIdList.remove(new Integer(SessionId));
+		
+		//4 로그아웃 성공
+		response.put("response", true);
+		response.put("msg", "로그아웃성공!");
+		
+		return response;
 	}
 	
 	//유저정보 가져오기

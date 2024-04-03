@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.Map;
 
 import Ch37_MVC_Add_View_Socket_Thread.Controller.FrontController;
+import Ch37_MVC_Add_View_Socket_Thread.View.Request;
 
 public class MVCServerRecvThread  implements Runnable{
 	String clientIp;
@@ -40,8 +41,8 @@ public class MVCServerRecvThread  implements Runnable{
 				recv= Din.readObject(); //클라이언트의 전달 메시지를 수신
 				if(recv!=null) {
 					
-					Response response  = (Response)recv;
-					Map<String,Object>body =  response.getBody();
+					Request request  = (Request)recv;
+					Map<String,Object>body =  request.getBody();
 					String uri = (String)body.get("uri");
 					Integer serviceNo =(Integer)body.get("serviceNo");
 					Map<String,Object> params = (Map<String,Object>)body.get("params");

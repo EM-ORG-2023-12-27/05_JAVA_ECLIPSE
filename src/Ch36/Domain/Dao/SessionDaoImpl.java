@@ -60,6 +60,14 @@ public class SessionDaoImpl {
 			
 		return dto;
 	}
+
+	public boolean Delete(int sessionId) throws Exception {
+		pstmt = conn.prepareStatement("delete from session where id=?");
+		pstmt.setInt(1, sessionId);
+		int result = pstmt.executeUpdate();
+		pstmt.close();
+		return  result>0;
+	}
 	
 	
 }

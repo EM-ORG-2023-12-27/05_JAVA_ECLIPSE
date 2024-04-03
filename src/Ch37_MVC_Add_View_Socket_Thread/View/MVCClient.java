@@ -9,13 +9,13 @@ import java.util.Map;
 import Ch37_MVC_Add_View_Socket_Thread.MVCServerRecvThread;
 
 public class MVCClient {
-	Socket client;
-	ObjectOutputStream out;
-	Map<String,Object> receiveBody;
+	public Socket client;
+	public ObjectOutputStream out;
+	public Map<String,Object> receiveBody;
 	
-	MVCClient() throws UnknownHostException, IOException{
+	public MVCClient() throws UnknownHostException, IOException{
 		//접속요청
-		client = new Socket("192.168.2.254",5555);	
+		client = new Socket("192.168.2.254",6666);	
 		System.out.println("[INIT] Server와 연결 완료");
 
 		//수신스레드 

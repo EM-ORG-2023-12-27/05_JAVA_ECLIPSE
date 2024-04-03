@@ -2,6 +2,8 @@ package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +13,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Ch37_MVC_Add_View_Socket_Thread.MVCServerRecvThread;
+import Ch37_MVC_Add_View_Socket_Thread.View.MVCClient;
+import Ch37_MVC_Add_View_Socket_Thread.View.MVCClientRecvThread;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.AUTH.LoginUI;
 
 public class MAINGUI extends JFrame implements ActionListener {
@@ -27,7 +32,10 @@ public class MAINGUI extends JFrame implements ActionListener {
 	//
 	LoginUI loginUI;
 	
-	MAINGUI() {
+	//
+	MVCClient mVCClient;
+	
+	MAINGUI() throws UnknownHostException, IOException {
 
 		super("MAIN MENU");
 		setBounds(10, 10, 500, 400);
@@ -78,19 +86,32 @@ public class MAINGUI extends JFrame implements ActionListener {
 		setVisible(true);
 		
 		//loginUI
-		loginUI = new LoginUI();
+		loginUI = new LoginUI(mVCClient);
 		loginUI.setVisible(false);
 		loginUI.setMainUI(this);
+		
+		//소켓 연결 시도 
+		this.mVCClient = new MVCClient(); 
+		
+		//수신 스레드 분리
+		MVCClientRecvThread recv = new MVCClientRecvThread(mVCClient.client, mVCClient);
+		Thread th = new Thread(recv);
+		th.start();
+		
 	}
 
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource()==btn1) {
 			System.out.println("BTN1 CLICK ");
-		}else if(e.getSource()==btn2) {
+		}
+		else if(e.getSource()==btn2) {
 			System.out.println("BTN2 CLICK ");
-		}else if(e.getSource()==btn3) {
+		}
+		else if(e.getSource()==btn3) //로그인 요청
+		{
 			System.out.println("BTN3 CLICK ");
 			
 			loginUI.setVisible(true);

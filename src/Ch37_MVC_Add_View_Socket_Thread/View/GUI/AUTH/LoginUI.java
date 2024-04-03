@@ -4,12 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Ch37_MVC_Add_View_Socket_Thread.View.MVCClient;
+import Ch37_MVC_Add_View_Socket_Thread.View.Request;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MAINGUI;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.MEMBER.MemberUI;
 import Ch37_MVC_Add_View_Socket_Thread.View.GUI.USER.UserUI;
@@ -25,7 +29,10 @@ public class LoginUI extends JFrame implements ActionListener{
 	MemberUI membergui;
 	UserUI usergui;
 	
-	public LoginUI(){
+	//
+	MVCClient mVCClient;
+	
+	public LoginUI(MVCClient mVCClient){
 		super("MAIN MENU");
 		setBounds(10, 10, 300, 150);
 
@@ -61,7 +68,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		membergui = new MemberUI();
 		usergui = new UserUI();
 		
-		
+		this.mVCClient =mVCClient;
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -79,18 +86,38 @@ public class LoginUI extends JFrame implements ActionListener{
 			System.out.println("LOGIN_BTN");
 			//로그인 체크
 			
+			Request request = new Request();
+			Map<String,Object> body = new HashMap();
+			body.put("uri","/user");
+			body.put("serviceNo", 5);
+			Map<String,Object> params = new HashMap();
+			params.put("username", id_txt.getText());
+			params.put("password", pw_txt.getText());
+			body.put("params", params);
+			request.setBody(body);
+
+			try {
+				mVCClient.requestServer(request);
+			
+			
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
 			
 			//회원사서인지 판단해서 창띄우기
-			if(id_txt.getText().equals("1"))
-			{
-				this.setVisible(false);
-				membergui.setVisible(true);
-			}
-			else if(id_txt.getText().equals("2"))
-			{
-				this.setVisible(false);
-				usergui.setVisible(true);
-			}
+//			if(id_txt.getText().equals("1"))
+//			{
+//				this.setVisible(false);
+//				membergui.setVisible(true);
+//			}
+//			else if(id_txt.getText().equals("2"))
+//			{
+//				this.setVisible(false);
+//				usergui.setVisible(true);
+//			}
 			 
 			
 		}
