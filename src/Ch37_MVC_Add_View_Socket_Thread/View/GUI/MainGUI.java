@@ -148,7 +148,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			request.setBody(body);
 			try {				
 				clientBackground.requestServer(request);
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			} catch (Exception e1) {			
 				e1.printStackTrace();
 			}
@@ -156,23 +156,31 @@ public class MainGUI extends JFrame implements ActionListener {
 			Map<String,Object>response =  clientBackground.receiveBody;
 			System.out.println("MAIN GUI Response : " + response);
 			
-			List<BookDto> list =  (List<BookDto>) response.get("list");
-			System.out.println("LIST : " + list);
 			
 			//Table Setting
 			//테이블 구조생성		
 			String[] column = {"도서코드", "도서명", "출판사","ISBN"};
 			Object[][] data = {};
 			DefaultTableModel model = new DefaultTableModel(data,column);
-			for(BookDto dto : list) {
+			
+			
+			if(serviceNo==4) {
+				List<BookDto> list =  (List<BookDto>) response.get("list");
+				System.out.println("LIST : " + list);		
+				for(BookDto dto : list) {
+					Object[] rowData = {dto.getBookCode(),dto.getBookName(),dto.getPublisher(),dto.getIsbn()};
+					model.addRow(rowData);
+				}
+			}
+			else if(serviceNo==5) 
+			{
+				BookDto dto =  (BookDto) response.get("bookDto");
 				Object[] rowData = {dto.getBookCode(),dto.getBookName(),dto.getPublisher(),dto.getIsbn()};
 				model.addRow(rowData);
 			}
-
 			table.setModel(model);
-
 			
-	
+
 			
 		}
 		else if(e.getSource()==btn2) {
