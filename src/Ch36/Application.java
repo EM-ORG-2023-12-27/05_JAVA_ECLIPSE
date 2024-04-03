@@ -66,14 +66,14 @@ public class Application {
 		UserServiceImpl service = new UserServiceImpl();
 		
 		//로그인실패 : 존재하지 않는계정
-		Map<String,Object> islogin1= service.login("user5","1234", 0);
-		System.out.println("islogin1 : " + islogin1);
+//		Map<String,Object> islogin1= service.login("user5","1234", 0);
+//		System.out.println("islogin1 : " + islogin1);
 		
-		//로그인실패 : 계정은 존재,패스워드 일치
-		Map<String,Object>  islogin2= service.login("user2","1235", 0);
-		System.out.println("islogin2 : " + islogin2);
-		
-		//로그인성공 : 계정은 존재하나 패스워드 불일치
+//		//로그인실패 : 계정은 존재,패스워드 일치
+//		Map<String,Object>  islogin2= service.login("user2","1235", 0);
+//		System.out.println("islogin2 : " + islogin2);
+//		
+//		//로그인성공 : 계정은 존재하나 패스워드 불일치
 		Map<String,Object>  islogin3= service.login("user2","1234", 0);
 		System.out.println("islogin3 : " + islogin3);
 		Integer mySessionId = (Integer)islogin3.get("sessionId");

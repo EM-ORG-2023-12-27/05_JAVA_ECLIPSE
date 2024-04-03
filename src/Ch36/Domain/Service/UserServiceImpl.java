@@ -96,6 +96,11 @@ public class UserServiceImpl {
 	}
 	//로그아웃
 	public boolean logout(int SessionId) {
+		
+		//1 sessionList에 sessionId 있는지 확인
+		//2 List에서 sessionId 제거
+		//3 Session테이블에서 dto 삭제
+		
 		return false;
 	}
 	

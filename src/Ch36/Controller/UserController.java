@@ -58,6 +58,14 @@ public class UserController implements SubController{
 			
 		}else if(serviceNo==6) {
 			
+			// 01 파라미터
+			// 02 입력값(Data)
+			// 03 서비스
+			
+			
+			// 04 뷰 
+			
+			
 		}else if(serviceNo==7) {
 			
 		}else {
