@@ -62,6 +62,7 @@ public class UserController implements SubController{
 			String username =(String) params.get("username");
 			String password =(String) params.get("password");
 			Integer sessionId = (Integer)params.get("sessionId");
+						
 			
 			// 02 입력값(Data)
 			if(!isValid(username,password,sessionId)) {
@@ -70,7 +71,7 @@ public class UserController implements SubController{
 			// 03 서비스
 			Map<String,Object> response = null;
 			try {
-				response = userService.login(username, password, serviceNo);
+				response = userService.login(username, password, sessionId);
 				
 			
 			} catch (Exception e) {

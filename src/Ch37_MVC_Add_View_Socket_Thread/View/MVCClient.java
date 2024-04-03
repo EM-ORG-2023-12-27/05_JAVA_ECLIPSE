@@ -13,16 +13,16 @@ public class MVCClient {
 	public ObjectOutputStream out;
 	public Map<String,Object> receiveBody;
 	
-	public MVCClient() throws UnknownHostException, IOException{
+	public MVCClient() throws Exception{
 		//접속요청
-		client = new Socket("192.168.2.254",6666);	
+		client = new Socket("192.168.2.254",7777);	
 		System.out.println("[INIT] Server와 연결 완료");
 
 		//수신스레드 
 		MVCClientRecvThread recv = new MVCClientRecvThread(client,this);
 		Thread th = new Thread(recv);
 		th.start();
-		
+		System.out.println("[INIT] 수신 스레드 생성완료 " + recv);
 		
 		this.out = new ObjectOutputStream(client.getOutputStream());
 	}

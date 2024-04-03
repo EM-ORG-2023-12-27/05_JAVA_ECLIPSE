@@ -90,12 +90,12 @@ public class Application {
 		
 		
 		FrontController controller = new FrontController();
-		Map<String,Object> params = new HashMap();
-		params.put("username", "user1");
-		params.put("password", "1234");
-		params.put("sessionId", 0);
-		Map<String,Object>response =controller.execute("/user", 6, params);
-		System.out.println(response);
+//		Map<String,Object> params = new HashMap();
+//		params.put("username", "user1");
+//		params.put("password", "1234");
+//		params.put("sessionId", 0);
+//		Map<String,Object>response =controller.execute("/user", 6, params);
+//		System.out.println(response);
 		
 //		params.put("sessionId", 31);
 //		Map<String,Object>response =controller.execute("/user", 7, params);

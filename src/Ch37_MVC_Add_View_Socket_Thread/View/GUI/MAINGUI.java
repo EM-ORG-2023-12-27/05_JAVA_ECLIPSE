@@ -2,8 +2,6 @@ package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,7 +33,7 @@ public class MAINGUI extends JFrame implements ActionListener {
 	//
 	MVCClient mVCClient;
 	
-	MAINGUI() throws UnknownHostException, IOException {
+	MAINGUI() throws Exception {
 
 		super("MAIN MENU");
 		setBounds(10, 10, 500, 400);
@@ -86,7 +84,7 @@ public class MAINGUI extends JFrame implements ActionListener {
 		setVisible(true);
 		
 		//loginUI
-		loginUI = new LoginUI(mVCClient);
+		loginUI = new LoginUI();
 		loginUI.setVisible(false);
 		loginUI.setMainUI(this);
 		
@@ -114,8 +112,13 @@ public class MAINGUI extends JFrame implements ActionListener {
 		{
 			System.out.println("BTN3 CLICK ");
 			
+			
 			loginUI.setVisible(true);
+			loginUI.setMainUI(this);
+			System.out.println("MVCCLIENT : " + mVCClient);
+			loginUI.setMVCClient(mVCClient);
 			this.setVisible(false);
+			
 		}
 		
 	}

@@ -32,7 +32,7 @@ public class LoginUI extends JFrame implements ActionListener{
 	//
 	MVCClient mVCClient;
 	
-	public LoginUI(MVCClient mVCClient){
+	public LoginUI(){
 		super("MAIN MENU");
 		setBounds(10, 10, 300, 150);
 
@@ -68,7 +68,7 @@ public class LoginUI extends JFrame implements ActionListener{
 		membergui = new MemberUI();
 		usergui = new UserUI();
 		
-		this.mVCClient =mVCClient;
+
 		addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -129,6 +129,10 @@ public class LoginUI extends JFrame implements ActionListener{
 		this.maingui = maingui;
 		membergui.setMainUI(maingui);
 		usergui.setMainUI(maingui);
+	}
+
+	public void setMVCClient(MVCClient mvcClient) {
+		this.mVCClient = mvcClient;
 	}
 	
 	

@@ -25,7 +25,7 @@ public class MVCserver {
 	//Client 접속 요청 수신용
 	public void listenServer() {
 		try {
-			server = new ServerSocket(6666);
+			server = new ServerSocket(7777);
 			while(true) {
 				System.out.println("[INFO] SERVER LISTEN");
 				client=server.accept();
