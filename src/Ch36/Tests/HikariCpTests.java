@@ -11,7 +11,7 @@ public class HikariCpTests {
 		
 		
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl("");
+		config.setJdbcUrl("jdbc:mysql://localhost:3306/bookdb");
 		config.setUsername("root");
 		config.setPassword("1234");
 		
@@ -25,6 +25,8 @@ public class HikariCpTests {
 		try {
 			conn = dataSource.getConnection();
 			//DB 코드 작성
+			System.out.println(conn);
+			
 			
 		}catch(Exception e) {
 			e.printStackTrace();

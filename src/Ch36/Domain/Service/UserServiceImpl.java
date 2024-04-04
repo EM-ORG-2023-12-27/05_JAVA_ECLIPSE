@@ -11,6 +11,7 @@ import Ch36.Domain.Dao.SessionDao;
 import Ch36.Domain.Dao.SessionDaoImpl;
 import Ch36.Domain.Dao.UserDao;
 import Ch36.Domain.Dao.UserDaoImpl;
+import Ch36.Domain.Dao.Common.ConnectionPool_ByHikari;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
@@ -20,7 +21,8 @@ public class UserServiceImpl implements UserService  {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserDao userDao;
 	private SessionDao sessionDao;
-	
+	private ConnectionPool_ByHikari connectionPool_ByHikari;//05-02 Hikari
+
 	
 	private static UserService instance ;
 	public static UserService getInstance() throws Exception {
@@ -44,6 +46,11 @@ public class UserServiceImpl implements UserService  {
 			SessionIdList.add(dto.getSessionId());
 		}
 		
+		//05-02 Hikari
+		this.connectionPool_ByHikari = ConnectionPool_ByHikari.getInstance();
+		
+		
+		
 		
 	}
 	
@@ -56,15 +63,32 @@ public class UserServiceImpl implements UserService  {
 		//현재 상태가 로그인 된 상태인지..
 		//..
 		//패스워드 암호화
+		
+		
+		//-------------------------------
+		//TX
+		//-------------------------------		
+		connectionPool_ByHikari.txStart();//TX 05-02 Hikari
+		//-------------------------------
+		
 		String encrypt= bCryptPasswordEncoder.encode(dto.getPassword());
 		dto.setPassword(encrypt);
+		boolean isJoined =  userDao.Insert(dto);
 		
-	 	return userDao.Insert(dto);
+		//-------------------------------
+		connectionPool_ByHikari.txCommit(); //TX 05-02 Hikari
+		//-------------------------------
+		
+		
+	 	return isJoined;
 	}
 	
 	//로그인
 	@Override
 	public Map<String,Object> login(String username,String password,int SessiondId) throws Exception {
+		
+		
+		//TX 05-02
 		
 		Map<String,Object> result=new HashMap();
 		

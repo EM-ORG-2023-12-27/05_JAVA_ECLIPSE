@@ -1,4 +1,4 @@
-package Ch36.Domain.Dao;
+package Ch36.Domain.Dao.Common;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,9 +1,11 @@
 package Ch36.Controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Ch36.Domain.Dao.Common.ConnectionPool;
 import Ch36.Domain.Dto.BookDto;
 import Ch36.Domain.Service.BookService;
 import Ch36.Domain.Service.BookServiceImpl;
@@ -11,11 +13,15 @@ import Ch36.Domain.Service.BookServiceImpl;
 public class BookController implements SubController{
 	
 	private BookService service;
+	
+	private ConnectionPool connectionPool; //05-01 TX
+	
 	public BookController(){	
 		try {
 			
 			service = BookServiceImpl.getInstance();
-		
+			connectionPool = ConnectionPool.getInstance();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,9 +54,13 @@ public class BookController implements SubController{
 			boolean isRegistred=false;
 			try {		
 				isRegistred =  service.bookRegister(dto);		
+			
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+			
+				//05-01 TX
+				try {connectionPool.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			
 			//4 뷰로 전달 or 이동
@@ -78,8 +88,9 @@ public class BookController implements SubController{
 				list =   service.getAllBooks();
 			
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				//05-01 TX
+				try {connectionPool.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			
 			//뷰

@@ -1,8 +1,10 @@
 package Ch36.Controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import Ch36.Domain.Dao.Common.ConnectionPool_ByHikari;
 import Ch36.Domain.Dto.UserDto;
 import Ch36.Domain.Service.UserService;
 import Ch36.Domain.Service.UserServiceImpl;
@@ -13,17 +15,27 @@ public class UserController implements SubController{
 	
 	private UserService userService;
 	
+	//05-02 TX Hikari
+	private ConnectionPool_ByHikari connectionPool_ByHikari;//05-02 Hikari
+
+	
 	public UserController(){
 		
 		try {
 			userService=UserServiceImpl.getInstance();
 		
+			
+			//05-02 TX Hikari
+			this.connectionPool_ByHikari = ConnectionPool_ByHikari.getInstance();//05-02 Hikari
+
+			
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
 		
 	}
+	
 	// 1 Insert , 2 Update , 3 Delete 4 SelectAll 5 Select 6 Login 7 Logout 
 	@Override
 	public Map<String, Object> execute(int serviceNo, Map<String, Object> params) {
@@ -39,11 +51,16 @@ public class UserController implements SubController{
 			}
 			//03 서비스
 			boolean isJoined=false;
+			
 			try {
 				isJoined =  userService.UserJoin(dto);
 			
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				//------------------------
+				//05-02 TX Hikari 
+				//------------------------
+				try {connectionPool_ByHikari.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
+				//------------------------
 				e.printStackTrace();
 			}
 			
