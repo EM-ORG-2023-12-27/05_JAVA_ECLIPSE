@@ -6,6 +6,8 @@ import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.BookDao;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.BookDaoImpl;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.ConnectionPool;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.Criteria;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.PageDto;
 
 public class BookServiceImpl implements BookService {
 	
@@ -54,5 +56,28 @@ public class BookServiceImpl implements BookService {
 		
 		return dto;
 	}
+	
+
+	@Override
+	public List<BookDto> getAllBooks(Criteria criteria) throws Exception {
+		
+		connectionPool.txStart();				//05-01 Day TX
+
+		int count =  dao.count();
+		System.out.println("getAllBooks's count : " + count);
+		//pageDto생성
+		PageDto pageDto = new PageDto(count,criteria);
+		
+        //시작 게시물 번호 구하기(수정) - OFFSET
+        int offset =(criteria.getPageno()-1) * criteria.getAmount();    //1page = 0, 2page = 10
+        
+		List<BookDto> list = dao.Select(pageDto,offset);
+		System.out.println("getAllBooks's list : " + list);
+		connectionPool.txCommit();				//05-01 Day TX
+
+		return list;
+	}
+
+
 
 }

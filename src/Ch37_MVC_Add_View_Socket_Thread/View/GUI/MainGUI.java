@@ -1,5 +1,6 @@
 package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.PageDto;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientBackground;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.ClientRecvThread;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
@@ -33,6 +35,23 @@ public class MainGUI extends JFrame implements ActionListener {
 	JButton btn2;
 	JButton btn3;
 	
+	JButton prev;
+	JButton idx01;
+	JButton idx02;
+	JButton idx03;
+	JButton idx04;
+	JButton idx05;
+	JButton idx06;
+	JButton idx07;
+	JButton idx08;
+	JButton idx09;
+	JButton idx10;
+	JButton idx11;
+	JButton idx12;
+	JButton idx13;
+	JButton idx14;
+	JButton idx15;
+	JButton next;
 	//
 	public LoginUI loginUI;
 	
@@ -45,7 +64,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	public MainGUI() throws Exception {
 
 		super("MAIN MENU");
-		setBounds(10, 10, 500, 400);
+		setBounds(10, 10, 500, 450);
 
 		// 패널
 		JPanel panel = new JPanel();
@@ -70,6 +89,23 @@ public class MainGUI extends JFrame implements ActionListener {
 		btn3 = new JButton("로그인");
 		
 		
+		prev = new JButton("<");	
+		next = new JButton(">");
+		idx01 = new JButton("1");
+		idx02 = new JButton("2");
+		idx03 = new JButton("3");
+		idx04 = new JButton("4");
+		idx05 = new JButton("5");
+
+		Font font = new Font("Arial", Font.PLAIN, 8);
+		prev.setFont(font);
+		next.setFont(font);
+		idx01.setFont(font);
+		idx02.setFont(font);
+		idx03.setFont(font);
+		idx04.setFont(font);
+		idx05.setFont(font);
+
 		// 위치 조정
 		label.setBounds(10,10,200,15);
 		txt.setBounds(10,30,200,30);
@@ -78,10 +114,30 @@ public class MainGUI extends JFrame implements ActionListener {
 		btn3.setBounds(350,90,100,30);
 		tableScroll.setBounds(10,140,440,200);
 		
+		
+		prev.setBounds(10,350,40,30);	
+		idx01.setBounds(60,350,50,30);
+		idx02.setBounds(120,350,50,30);
+		idx03.setBounds(180,350,50,30);
+		idx04.setBounds(240,350,50,30);
+		idx05.setBounds(300,350,50,30);
+		next.setBounds(360,350,40,30);
+		
+		
+		
 		//EVENT
 		btn1.addActionListener(this);
 		btn2.addActionListener(this);
 		btn3.addActionListener(this);
+		
+		prev.addActionListener(this);
+		next.addActionListener(this);
+		
+		idx01.addActionListener(this);
+		idx02.addActionListener(this);
+		idx03.addActionListener(this);
+		idx04.addActionListener(this);
+		idx05.addActionListener(this);
 		
 		// 컴포넌트를 패널에 추가
 		panel.add(label);
@@ -90,6 +146,16 @@ public class MainGUI extends JFrame implements ActionListener {
 		panel.add(btn2);
 		panel.add(btn3);
 		panel.add(tableScroll);
+		
+		panel.add(prev);
+		panel.add(next);
+		panel.add(idx01);
+		panel.add(idx02);
+		panel.add(idx03);
+		panel.add(idx04);
+		panel.add(idx05);
+
+		
 		
 		//EVENT
 		
@@ -197,6 +263,20 @@ public class MainGUI extends JFrame implements ActionListener {
 			this.setVisible(false);
 			
 		}
+		
+		else if(e.getSource()==prev) {
+			
+		}
+		else if(e.getSource()==next) {
+				
+		}
+		
+		
+		
+	}
+	
+	//페이징 처리
+	public void paging(PageDto pageDto) {
 		
 	}
 	

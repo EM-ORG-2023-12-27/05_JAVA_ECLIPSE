@@ -7,6 +7,7 @@ import java.util.Map;
 
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.ConnectionPool;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.Criteria;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookService;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookServiceImpl;
 
@@ -80,14 +81,17 @@ public class BookController implements SubController{
 		else if(serviceNo==4) //SELECTALL
 		{
 			System.out.println("");
-			//파라미터
+
+			Criteria  criteria = new Criteria(); //1페이지 10개
+	        
+	
+			
 			//유효성
 			//서비스
 			List<BookDto> list =null;
 			try {
-			
-				list =   service.getAllBooks();
-			
+				list = service.getAllBooks(criteria);			
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				//05-01 TX
