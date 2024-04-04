@@ -37,7 +37,7 @@ public class ClientBackground {
 	}
 
 	public void recvObjects(Map<String, Object> body) {
-		System.out.println("[Client] recvObjects's receiveBody : " + body);
+		System.out.println("[Client] recvObjects's receiveBody msg: " + body.get("msg") + " response : " + body.get("response"));
 		this.receiveBody = body;
 	}
 		 

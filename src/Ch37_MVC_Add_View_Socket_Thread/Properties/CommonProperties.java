@@ -35,6 +35,7 @@ public class CommonProperties {
 		
 		String pakagePath = Application.class.getPackageName();
 		String filePath = dirPath + File.separator + "src" + File.separator + pakagePath + File.separator +"application.properties";
+		 
 		System.out.println("filePath : " + filePath);
 		FileInputStream fin = new FileInputStream(filePath);	
 		properties.load(fin);

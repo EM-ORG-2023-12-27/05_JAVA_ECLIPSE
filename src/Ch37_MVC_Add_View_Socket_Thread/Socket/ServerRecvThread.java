@@ -52,7 +52,7 @@ public class ServerRecvThread  implements Runnable{
 					// 요구사항 요청(to MVC)
 					Map<String,Object> returnValue =  frontController.execute(uri, serviceNo, params);
 					//결과 Send하기
-					System.out.println("ServerRecvThread run's mvc returnVal : " + returnValue);
+					System.out.println("ServerRecvThread run's mvc returnVal  msg : " + returnValue.get("msg"));
 					serverBackground.Response(clientIp, returnValue);
 					
 				}	
