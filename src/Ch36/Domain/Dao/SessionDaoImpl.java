@@ -10,16 +10,8 @@ import java.util.List;
 import Ch36.Domain.Dto.BookDto;
 import Ch36.Domain.Dto.SessionDto;
 
-public class SessionDaoImpl {
-	private String url ="jdbc:mysql://localhost:3306/bookdb";
-	private String id = "root";
-	private String pw = "1234";
-	
-	private Connection conn =null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
-	
-	
+public class SessionDaoImpl extends CommonDao{
+
 	private static SessionDaoImpl instance ;
 	public static SessionDaoImpl getInstance() throws Exception {
 		if(instance==null)
@@ -28,9 +20,8 @@ public class SessionDaoImpl {
 	}
 	
 	private SessionDaoImpl() throws Exception{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(url,id,pw);
-		System.out.println("[DAO] SessionDaoImpl's INIT DB Connected...");
+		System.out.println("[DAO] SessionDaoImpl's INIT ");
+
 	}
 	
 	//SESSION용
@@ -54,6 +45,7 @@ public class SessionDaoImpl {
 			dto.setSessionId(rs.getInt("id"));
 		}
 			
+		freeConnection(pstmt,rs);
 		return dto;
 	}
 	public SessionDto Select(String username) throws Exception {
@@ -69,7 +61,7 @@ public class SessionDaoImpl {
 			dto.setRole(rs.getString("role"));
 			dto.setSessionId(rs.getInt("id"));
 		}
-			
+		freeConnection(pstmt,rs);
 		return dto;
 	}
 
@@ -77,7 +69,8 @@ public class SessionDaoImpl {
 		pstmt = conn.prepareStatement("delete from session where id=?");
 		pstmt.setInt(1, sessionId);
 		int result = pstmt.executeUpdate();
-		pstmt.close();
+		
+		freeConnection(pstmt);
 		return  result>0;
 	}
 	
@@ -97,8 +90,7 @@ public class SessionDaoImpl {
 				list.add(dto);
 			}
 		}	
-		rs.close();
-		pstmt.close();
+		freeConnection(pstmt,rs);
 		return list;
 	}
 	

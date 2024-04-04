@@ -12,16 +12,10 @@ import Ch36.Domain.Dto.BookDto;
 
 
 
-public class BookDaoImpl {
+public class BookDaoImpl extends CommonDao {
 	
+
 	
-	private String url ="jdbc:mysql://localhost:3306/bookdb";
-	private String id = "root";
-	private String pw = "1234";
-	
-	private Connection conn =null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
 	
 	
 	private static BookDaoImpl instance ;
@@ -31,9 +25,8 @@ public class BookDaoImpl {
 		return instance;
 	}
 	private BookDaoImpl() throws Exception{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(url,id,pw);
-		System.out.println("[DAO] BookDaoImpl's INIT DB Connected...");
+		System.out.println("[DAO] BookDaoImpl's INIT.");
+		
 	}
 	
 	//INSERT
@@ -45,7 +38,7 @@ public class BookDaoImpl {
 		pstmt.setString(4, dto.getIsbn());
 		int result = pstmt.executeUpdate();
 		
-		pstmt.close();
+		freeConnection(pstmt);
 		return result>0;
 	}
 	
@@ -69,8 +62,9 @@ public class BookDaoImpl {
 				list.add(dto);
 			}
 		}	
-		rs.close();
-		pstmt.close();
+		
+		
+		freeConnection(pstmt,rs);
 		return list;
 	}
 	
@@ -91,8 +85,8 @@ public class BookDaoImpl {
 				dto.setPublisher(rs.getString("publisher"));
 				dto.setIsbn(rs.getString("isbn"));		
 		}	
-		rs.close();
-		pstmt.close();
+		
+		freeConnection(pstmt,rs);
 		return dto;
 	}
 	

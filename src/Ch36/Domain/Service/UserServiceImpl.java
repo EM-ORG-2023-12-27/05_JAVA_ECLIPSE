@@ -12,7 +12,7 @@ import Ch36.Domain.Dao.UserDaoImpl;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
-public class UserServiceImpl {
+public class UserServiceImpl  {
 	
 	private List<Integer> SessionIdList;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;

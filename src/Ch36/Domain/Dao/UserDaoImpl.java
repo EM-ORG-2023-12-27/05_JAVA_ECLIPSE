@@ -8,15 +8,8 @@ import java.sql.ResultSet;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
-public class UserDaoImpl {
-	private String url ="jdbc:mysql://localhost:3306/bookdb";
-	private String id = "root";
-	private String pw = "1234";
-	
-	private Connection conn =null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
-	
+public class UserDaoImpl extends CommonDao{
+
 	private static UserDaoImpl instance ;
 	public static UserDaoImpl getInstance() throws Exception {
 		if(instance==null)
@@ -25,9 +18,8 @@ public class UserDaoImpl {
 	}
 	
 	private UserDaoImpl() throws Exception{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(url,id,pw);
-		System.out.println("[DAO] UserDaoImpl's INIT DB Connected...");
+		System.out.println("[DAO] UserDaoImpl's INIT...");
+
 	}
 	
 	//INSERT
@@ -37,8 +29,9 @@ public class UserDaoImpl {
 		pstmt.setString(2, dto.getPassword());
 		pstmt.setString(3, dto.getRole());
 		pstmt.setBoolean(4, false);
-		
-		return pstmt.executeUpdate()>0;
+		int result = pstmt.executeUpdate();
+		freeConnection(pstmt);
+		return result>0;
 	}
 	
 	//UPDATE
@@ -64,6 +57,7 @@ public class UserDaoImpl {
 			}
 			
 		}
+		freeConnection(pstmt,rs);
 		return dto;	
 	}
 
