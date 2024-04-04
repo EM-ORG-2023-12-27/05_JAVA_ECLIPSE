@@ -17,6 +17,8 @@ public class CommonDao {
 		conn = connectionPool.getConnection();
 	}
 	
+	
+	//
 	public void freeConnection(Connection conn) throws SQLException {
 		 conn.close();
 	}

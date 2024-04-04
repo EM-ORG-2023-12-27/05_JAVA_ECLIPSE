@@ -12,6 +12,7 @@ public class BookServiceImpl implements BookService {
 	private BookDao dao;
 	
 	
+	
 	private static BookService instance ;
 	public static BookService getInstance() throws Exception {
 		if(instance==null)
@@ -20,11 +21,17 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	private BookServiceImpl() throws Exception{
+		
 		dao = BookDaoImpl.getInstance();
+		
 	}
 	
 	@Override
-	public boolean bookRegister(BookDto dto) throws Exception {;
+	public boolean bookRegister(BookDto dto) throws Exception {
+		
+		//autoCommit false
+		
+		//commit()
 		return dao.Insert(dto);
 	};
 	@Override
