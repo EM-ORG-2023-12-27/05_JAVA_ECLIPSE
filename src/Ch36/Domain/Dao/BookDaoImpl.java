@@ -12,24 +12,25 @@ import Ch36.Domain.Dto.BookDto;
 
 
 
-public class BookDaoImpl extends CommonDao {
+public class BookDaoImpl extends CommonDao implements BookDao {
 	
 
 	
 	
 	
-	private static BookDaoImpl instance ;
-	public static BookDaoImpl getInstance() throws Exception {
+	private static BookDao instance ;
+	public static BookDao getInstance() throws Exception {
 		if(instance==null)
 			instance=new BookDaoImpl();
 		return instance;
 	}
 	private BookDaoImpl() throws Exception{
-		System.out.println("[DAO] BookDaoImpl's INIT.");
+		System.out.println("[DAO] BookDaoImpl's INIT.." + conn);
 		
 	}
 	
 	//INSERT
+	@Override
 	public boolean Insert(BookDto dto) throws Exception{
 		pstmt = conn.prepareStatement("insert into book values(?,?,?,?)");
 		pstmt.setInt(1, dto.getBookCode());
@@ -46,6 +47,7 @@ public class BookDaoImpl extends CommonDao {
 	//DELETE
 	
 	//SELECTALL
+	@Override
 	public List<BookDto> SelectAll() throws Exception{
 		pstmt = conn.prepareStatement("select * from book");
 		rs =  pstmt.executeQuery();
@@ -70,6 +72,7 @@ public class BookDaoImpl extends CommonDao {
 	
 	
 	//SELECTONE
+	@Override
 	public BookDto Select(int bookCode) throws Exception {
 		pstmt = conn.prepareStatement("select * from book where bookCode=?");
 		pstmt.setInt(1, bookCode);

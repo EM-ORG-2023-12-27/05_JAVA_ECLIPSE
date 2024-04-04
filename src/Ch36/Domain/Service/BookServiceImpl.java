@@ -2,17 +2,18 @@ package Ch36.Domain.Service;
 
 import java.util.List;
 
+import Ch36.Domain.Dao.BookDao;
 import Ch36.Domain.Dao.BookDaoImpl;
 import Ch36.Domain.Dao.UserDaoImpl;
 import Ch36.Domain.Dto.BookDto;
 
-public class BookServiceImpl {
+public class BookServiceImpl implements BookService {
 	
-	private BookDaoImpl dao;
+	private BookDao dao;
 	
 	
-	private static BookServiceImpl instance ;
-	public static BookServiceImpl getInstance() throws Exception {
+	private static BookService instance ;
+	public static BookService getInstance() throws Exception {
 		if(instance==null)
 			instance=new BookServiceImpl();
 		return instance;
@@ -22,12 +23,15 @@ public class BookServiceImpl {
 		dao = BookDaoImpl.getInstance();
 	}
 	
+	@Override
 	public boolean bookRegister(BookDto dto) throws Exception {;
 		return dao.Insert(dto);
 	};
+	@Override
 	public List<BookDto> getAllBooks() throws Exception {
 		return dao.SelectAll();
 	}
+	@Override
 	public BookDto getBook(int bookCode) throws Exception{
 		return dao.Select(bookCode);
 	}

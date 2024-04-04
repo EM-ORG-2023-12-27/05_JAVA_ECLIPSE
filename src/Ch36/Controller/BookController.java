@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import Ch36.Domain.Dto.BookDto;
+import Ch36.Domain.Service.BookService;
 import Ch36.Domain.Service.BookServiceImpl;
 
 public class BookController implements SubController{
 	
-	private BookServiceImpl service;
+	private BookService service;
 	public BookController(){	
 		try {
 			

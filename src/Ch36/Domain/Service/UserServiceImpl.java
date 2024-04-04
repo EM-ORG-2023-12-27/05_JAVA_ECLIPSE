@@ -7,21 +7,23 @@ import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import Ch36.Domain.Dao.SessionDao;
 import Ch36.Domain.Dao.SessionDaoImpl;
+import Ch36.Domain.Dao.UserDao;
 import Ch36.Domain.Dao.UserDaoImpl;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
-public class UserServiceImpl  {
+public class UserServiceImpl implements UserService  {
 	
 	private List<Integer> SessionIdList;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	private UserDaoImpl userDao;
-	private SessionDaoImpl sessionDao;
+	private UserDao userDao;
+	private SessionDao sessionDao;
 	
 	
-	private static UserServiceImpl instance ;
-	public static UserServiceImpl getInstance() throws Exception {
+	private static UserService instance ;
+	public static UserService getInstance() throws Exception {
 		if(instance==null)
 			instance=new UserServiceImpl();
 		return instance;
@@ -46,6 +48,7 @@ public class UserServiceImpl  {
 	}
 	
 	//회원가입
+	@Override
 	public boolean UserJoin(UserDto dto) throws Exception {
 		//+ 비즈니스 유효성 체크
 		//입력패스워드 + re패스워드 일치여부
@@ -60,6 +63,7 @@ public class UserServiceImpl  {
 	}
 	
 	//로그인
+	@Override
 	public Map<String,Object> login(String username,String password,int SessiondId) throws Exception {
 		
 		Map<String,Object> result=new HashMap();
@@ -110,6 +114,7 @@ public class UserServiceImpl  {
 		
 	}
 	//로그아웃
+	@Override
 	public Map<String,Object> logout(int SessionId) throws Exception {
 		
 		Map<String,Object> response = new HashMap();
@@ -142,12 +147,14 @@ public class UserServiceImpl  {
 	}
 	
 	//유저정보 가져오기
+	@Override
 	public UserDto getUser(String username) throws Exception {
 		return userDao.Select(username);
 	}
 	
 	
 	//현재 접속중인 세션Id list 리턴
+	@Override
 	public List<Integer> getSessionIdList(){
 		return SessionIdList;
 	}

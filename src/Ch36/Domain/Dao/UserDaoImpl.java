@@ -8,21 +8,22 @@ import java.sql.ResultSet;
 import Ch36.Domain.Dto.SessionDto;
 import Ch36.Domain.Dto.UserDto;
 
-public class UserDaoImpl extends CommonDao{
+public class UserDaoImpl extends CommonDao implements UserDao{
 
-	private static UserDaoImpl instance ;
-	public static UserDaoImpl getInstance() throws Exception {
+	private static UserDao instance ;
+	public static UserDao getInstance() throws Exception {
 		if(instance==null)
 			instance=new UserDaoImpl();
 		return instance;
 	}
 	
 	private UserDaoImpl() throws Exception{
-		System.out.println("[DAO] UserDaoImpl's INIT...");
+		System.out.println("[DAO] UserDaoImpl's INIT..."+conn);
 
 	}
 	
 	//INSERT
+	@Override
 	public boolean Insert(UserDto dto) throws Exception{
 		pstmt =  conn.prepareStatement("insert into user values(?,?,?,?)");
 		pstmt.setString(1, dto.getUsername());
@@ -41,6 +42,7 @@ public class UserDaoImpl extends CommonDao{
 	
 	
 
+	@Override
 	public UserDto Select(String username) throws Exception{
 		pstmt = conn.prepareStatement("select * from user where username=?");
 		pstmt.setString(1, username);
