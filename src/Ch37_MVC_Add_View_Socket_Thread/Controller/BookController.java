@@ -1,22 +1,28 @@
 package Ch37_MVC_Add_View_Socket_Thread.Controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.ConnectionPool;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookService;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookServiceImpl;
-
 
 
 public class BookController implements SubController{
 	
-	private BookServiceImpl service;
+	private BookService service;
+	
+	private ConnectionPool connectionPool; //05-01 TX
+	
 	public BookController(){	
 		try {
 			
-			service = new BookServiceImpl();
-		
+			service = BookServiceImpl.getInstance();
+			connectionPool = ConnectionPool.getInstance();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,9 +55,13 @@ public class BookController implements SubController{
 			boolean isRegistred=false;
 			try {		
 				isRegistred =  service.bookRegister(dto);		
+			
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+			
+				//05-01 TX
+				try {connectionPool.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			
 			//4 뷰로 전달 or 이동
@@ -69,7 +79,7 @@ public class BookController implements SubController{
 		}
 		else if(serviceNo==4) //SELECTALL
 		{
-			System.out.println("BookController ServiceNo 4");
+			System.out.println("");
 			//파라미터
 			//유효성
 			//서비스
@@ -79,8 +89,9 @@ public class BookController implements SubController{
 				list =   service.getAllBooks();
 			
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				//05-01 TX
+				try {connectionPool.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
 			}
 			
 			//뷰
@@ -97,7 +108,7 @@ public class BookController implements SubController{
 		}
 		else if(serviceNo==5) //SELECTONE
 		{
-			System.out.println("BookController ServiceNo 5");
+			System.out.println("");
 			//파라미터
 			//유효성
 			//서비스

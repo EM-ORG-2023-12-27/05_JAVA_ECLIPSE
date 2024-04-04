@@ -2,7 +2,6 @@ package Ch37_MVC_Add_View_Socket_Thread.View.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	//
 	public ClientBackground clientBackground;
 	
-	public MainGUI() throws IOException {
+	public MainGUI() throws Exception {
 
 		super("MAIN MENU");
 		setBounds(10, 10, 500, 400);
@@ -202,7 +201,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		new MainGUI();
 	}
 }

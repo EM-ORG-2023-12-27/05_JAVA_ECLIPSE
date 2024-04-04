@@ -1,7 +1,7 @@
 package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
+import java.io.BufferedInputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class ServerRecvThread  implements Runnable{
 	ServerBackground serverBackground;
 	FrontController frontController;
 	
-	public ServerRecvThread(Socket client,ServerBackground serverBackground){
+	public ServerRecvThread(Socket client,ServerBackground serverBackground) throws Exception{
 		frontController = new FrontController();
 		
 		this.client=client;
@@ -24,7 +24,9 @@ public class ServerRecvThread  implements Runnable{
 		this.clientIp = client.getInetAddress().toString();
 		System.out.println("ServerRecvThread's init ClientIp : " + clientIp);
 		try {
-			Din = new ObjectInputStream(client.getInputStream());
+			
+			BufferedInputStream bin = new BufferedInputStream(client.getInputStream());
+			Din = new ObjectInputStream(bin);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

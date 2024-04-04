@@ -1,30 +1,27 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.CommonDao;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.SessionDto;
 
-public class SessionDaoImpl {
-	private String url ="jdbc:mysql://localhost:3306/bookdb";
-	private String id = "root";
-	private String pw = "1234";
+public class SessionDaoImpl extends CommonDao implements SessionDao{
+
+	private static SessionDao instance ;
+	public static SessionDao getInstance() throws Exception {
+		if(instance==null)
+			instance=new SessionDaoImpl();
+		return instance;
+	}
 	
-	private Connection conn =null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
-	
-	public SessionDaoImpl() throws Exception{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(url,id,pw);
-		System.out.println("[DAO] SessionDaoImpl's INIT DB Connected...");
+	private SessionDaoImpl() throws Exception{
+		System.out.println("[DAO] SessionDaoImpl's INIT "+conn);
+
 	}
 	
 	//SESSION용
+	@Override
 	public boolean Insert(SessionDto sessionDto) throws Exception {
 		pstmt =  conn.prepareStatement("insert into session values(null,?,?)");
 		pstmt.setString(1, sessionDto.getUsername());
@@ -32,6 +29,7 @@ public class SessionDaoImpl {
 		return pstmt.executeUpdate()>0;
 	}
 	
+	@Override
 	public SessionDto Select(int sessiondId) throws Exception {
 		pstmt = conn.prepareStatement("select * from session where id=?");
 		pstmt.setInt(1,sessiondId);
@@ -45,11 +43,14 @@ public class SessionDaoImpl {
 			dto.setSessionId(rs.getInt("id"));
 		}
 			
+		freeConnection(pstmt,rs);
 		return dto;
 	}
+	@Override
 	public SessionDto Select(String username) throws Exception {
 		pstmt = conn.prepareStatement("select * from session where username=? order by id desc");
 		pstmt.setString(1,username);
+		
 		rs=pstmt.executeQuery();
 		SessionDto dto=null;
 		if(rs!=null) {
@@ -59,19 +60,22 @@ public class SessionDaoImpl {
 			dto.setRole(rs.getString("role"));
 			dto.setSessionId(rs.getInt("id"));
 		}
-			
+		freeConnection(pstmt,rs);
 		return dto;
 	}
 
+	@Override
 	public boolean Delete(int sessionId) throws Exception {
 		pstmt = conn.prepareStatement("delete from session where id=?");
 		pstmt.setInt(1, sessionId);
 		int result = pstmt.executeUpdate();
-		pstmt.close();
+		
+		freeConnection(pstmt);
 		return  result>0;
 	}
 	
 	//SELECTALL
+	@Override
 	public List<SessionDto> SelectAll() throws Exception{
 		pstmt = conn.prepareStatement("select * from session");
 		rs =  pstmt.executeQuery();
@@ -87,8 +91,7 @@ public class SessionDaoImpl {
 				list.add(dto);
 			}
 		}	
-		rs.close();
-		pstmt.close();
+		freeConnection(pstmt,rs);
 		return list;
 	}
 	

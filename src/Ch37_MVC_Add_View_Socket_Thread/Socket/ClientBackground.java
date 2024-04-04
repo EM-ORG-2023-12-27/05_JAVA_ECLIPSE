@@ -1,36 +1,39 @@
 package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
-import java.io.IOException;
+import java.io.BufferedOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Map;
 
+import Ch37_MVC_Add_View_Socket_Thread.Properties.CommonProperties;
 import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Request;
 
 public class ClientBackground {
+	CommonProperties properties;
+	
+	
 	public Socket client;
 	public Map<String,Object> receiveBody;
 	ObjectOutputStream out;
-	public ClientBackground(){
+	public ClientBackground() throws Exception{
+		
+		this.properties = CommonProperties.getInstance();
+
 		//접속요청
-		try {
-			client = new Socket("192.168.2.254",8888);
+		
+			client = new Socket(properties.SERVERIP ,Integer.parseInt(properties.SERVERPORT));
 			System.out.println("[INIT] Server와 연결 완료.." + client);
-			out = new ObjectOutputStream(client.getOutputStream());
+			BufferedOutputStream bout = new BufferedOutputStream(client.getOutputStream());
+			out = new ObjectOutputStream(bout);
 			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+	
 		
 	}
 	
 	public void requestServer(Request request) throws Exception{
 		out.writeObject(request);
 		out.flush();
-		System.out.println("[Client] requestServer's receiveBody : " + receiveBody);
+		//System.out.println("[Client] requestServer's receiveBody : " + receiveBody);
 	}
 
 	public void recvObjects(Map<String, Object> body) {

@@ -1,15 +1,18 @@
 package Ch37_MVC_Add_View_Socket_Thread.Socket;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Map;
 
 import Ch37_MVC_Add_View_Socket_Thread.Socket.Type.Response;
 
 public class ClientRecvThread  implements Runnable{
 
+
+
+	
 	public Socket client;
 	public ClientBackground mvcClient;
 	
@@ -27,8 +30,8 @@ public class ClientRecvThread  implements Runnable{
 			try {	
 				while(true)
 				{
-	
-						ObjectInputStream in = new ObjectInputStream(client.getInputStream());
+						BufferedInputStream bin = new BufferedInputStream(client.getInputStream());
+						ObjectInputStream in = new ObjectInputStream(bin);
 						recv= in.readObject();
 					
 					//서버로부터의 메시지 수신

@@ -1,15 +1,25 @@
 package Ch37_MVC_Add_View_Socket_Thread.Controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+
+
 
 public class FrontController {
 	
+	
+	
 	private Map<String,SubController> map = new HashMap();
 	
-	public FrontController(){
+	public FrontController() throws Exception{
 		System.out.println("FrontController()");
 		init();
+
+		
 	}
 	private void init() {
 		System.out.println("FrontController's init()");

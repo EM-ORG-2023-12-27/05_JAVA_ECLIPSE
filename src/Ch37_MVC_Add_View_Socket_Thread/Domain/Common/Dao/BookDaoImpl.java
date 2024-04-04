@@ -1,31 +1,30 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.CommonDao;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
 
-
-
-public class BookDaoImpl {
-	private String url ="jdbc:mysql://localhost:3306/bookdb";
-	private String id = "root";
-	private String pw = "1234";
+public class BookDaoImpl extends CommonDao implements BookDao {
 	
-	private Connection conn =null;
-	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+
 	
-	public BookDaoImpl() throws Exception{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(url,id,pw);
-		System.out.println("[DAO] BookDaoImpl's INIT DB Connected...");
+	
+	
+	private static BookDao instance ;
+	public static BookDao getInstance() throws Exception {
+		if(instance==null)
+			instance=new BookDaoImpl();
+		return instance;
 	}
+	private BookDaoImpl() throws Exception{
+		System.out.println("[DAO] BookDaoImpl's INIT.." + conn);
+		
+	}
+	
 	//INSERT
+	@Override
 	public boolean Insert(BookDto dto) throws Exception{
 		pstmt = conn.prepareStatement("insert into book values(?,?,?,?)");
 		pstmt.setInt(1, dto.getBookCode());
@@ -34,7 +33,7 @@ public class BookDaoImpl {
 		pstmt.setString(4, dto.getIsbn());
 		int result = pstmt.executeUpdate();
 		
-		pstmt.close();
+		freeConnection(pstmt);
 		return result>0;
 	}
 	
@@ -42,6 +41,7 @@ public class BookDaoImpl {
 	//DELETE
 	
 	//SELECTALL
+	@Override
 	public List<BookDto> SelectAll() throws Exception{
 		pstmt = conn.prepareStatement("select * from book");
 		rs =  pstmt.executeQuery();
@@ -58,13 +58,15 @@ public class BookDaoImpl {
 				list.add(dto);
 			}
 		}	
-		rs.close();
-		pstmt.close();
+		
+		
+		freeConnection(pstmt,rs);
 		return list;
 	}
 	
 	
 	//SELECTONE
+	@Override
 	public BookDto Select(int bookCode) throws Exception {
 		pstmt = conn.prepareStatement("select * from book where bookCode=?");
 		pstmt.setInt(1, bookCode);
@@ -80,8 +82,8 @@ public class BookDaoImpl {
 				dto.setPublisher(rs.getString("publisher"));
 				dto.setIsbn(rs.getString("isbn"));		
 		}	
-		rs.close();
-		pstmt.close();
+		
+		freeConnection(pstmt,rs);
 		return dto;
 	}
 	

@@ -7,27 +7,36 @@ import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.SessionDao;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.SessionDaoImpl;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.UserDao;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.UserDaoImpl;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.ConnectionPool_ByHikari;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.SessionDto;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.UserDto;
 
-
-
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService  {
 	
 	private List<Integer> SessionIdList;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	private UserDaoImpl userDao;
-	private SessionDaoImpl sessionDao;
+	private UserDao userDao;
+	private SessionDao sessionDao;
+	private ConnectionPool_ByHikari connectionPool_ByHikari;//05-02 Hikari
+
 	
+	private static UserService instance ;
+	public static UserService getInstance() throws Exception {
+		if(instance==null)
+			instance=new UserServiceImpl();
+		return instance;
+	}
 	
-	public UserServiceImpl() throws Exception {
+	private UserServiceImpl() throws Exception {
 		System.out.println("UserServiceImpl's UserServiceImpl()");
 		bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		
-		userDao = new UserDaoImpl();
-		sessionDao = new SessionDaoImpl();
+		userDao = UserDaoImpl.getInstance();
+		sessionDao = SessionDaoImpl.getInstance();
 		
 		SessionIdList=new ArrayList();
 		
@@ -37,10 +46,16 @@ public class UserServiceImpl {
 			SessionIdList.add(dto.getSessionId());
 		}
 		
+		//05-02 Hikari
+		this.connectionPool_ByHikari = ConnectionPool_ByHikari.getInstance();
+		
+		
+		
 		
 	}
 	
 	//회원가입
+	@Override
 	public boolean UserJoin(UserDto dto) throws Exception {
 		//+ 비즈니스 유효성 체크
 		//입력패스워드 + re패스워드 일치여부
@@ -48,14 +63,32 @@ public class UserServiceImpl {
 		//현재 상태가 로그인 된 상태인지..
 		//..
 		//패스워드 암호화
+		
+		
+		//-------------------------------
+		//TX
+		//-------------------------------		
+		connectionPool_ByHikari.txStart();//TX 05-02 Hikari
+		//-------------------------------
+		
 		String encrypt= bCryptPasswordEncoder.encode(dto.getPassword());
 		dto.setPassword(encrypt);
+		boolean isJoined =  userDao.Insert(dto);
 		
-	 	return userDao.Insert(dto);
+		//-------------------------------
+		connectionPool_ByHikari.txCommit(); //TX 05-02 Hikari
+		//-------------------------------
+		
+		
+	 	return isJoined;
 	}
 	
 	//로그인
+	@Override
 	public Map<String,Object> login(String username,String password,int SessiondId) throws Exception {
+		
+		
+		//TX 05-02
 		
 		Map<String,Object> result=new HashMap();
 		
@@ -104,8 +137,8 @@ public class UserServiceImpl {
 		return result;
 		
 	}
-	
 	//로그아웃
+	@Override
 	public Map<String,Object> logout(int SessionId) throws Exception {
 		
 		Map<String,Object> response = new HashMap();
@@ -138,12 +171,14 @@ public class UserServiceImpl {
 	}
 	
 	//유저정보 가져오기
+	@Override
 	public UserDto getUser(String username) throws Exception {
 		return userDao.Select(username);
 	}
 	
 	
 	//현재 접속중인 세션Id list 리턴
+	@Override
 	public List<Integer> getSessionIdList(){
 		return SessionIdList;
 	}

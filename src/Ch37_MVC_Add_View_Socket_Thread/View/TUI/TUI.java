@@ -17,7 +17,7 @@ public class TUI {
 
 	private FrontController controller;
 
-	TUI() {
+	TUI() throws Exception {
 		controller = new FrontController();
 	}
 
