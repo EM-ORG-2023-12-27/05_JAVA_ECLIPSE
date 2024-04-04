@@ -1,6 +1,10 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto;
 
-public class PageDto {
+import java.io.Serializable;
+
+public class PageDto  implements Serializable{
+	private static final long serialVersionUID = 5L;
+
 	
 	//페이지정보(전체페이지,현재페이지)
 	private int totalpage;			//총게시물건수 / amount
@@ -30,7 +34,7 @@ public class PageDto {
 		totalpage =(int)Math.ceil((1.0*totalcount)/criteria.getAmount());
 		
 		//블럭계산
-		pagePerBlock=5;
+		pagePerBlock=1;
 		totalBlock = (int)Math.ceil( (1.0*totalpage) / pagePerBlock );
 		nowBlock =  (int)Math.ceil ((1.0*criteria.getPageno()) / pagePerBlock);
 		
@@ -64,6 +68,70 @@ public class PageDto {
 
 	public void setCriteria(Criteria criteria) {
 		this.criteria = criteria;
+	}
+
+	public int getTotalpage() {
+		return totalpage;
+	}
+
+	public void setTotalpage(int totalpage) {
+		this.totalpage = totalpage;
+	}
+
+	public int getPagePerBlock() {
+		return pagePerBlock;
+	}
+
+	public void setPagePerBlock(int pagePerBlock) {
+		this.pagePerBlock = pagePerBlock;
+	}
+
+	public int getTotalBlock() {
+		return totalBlock;
+	}
+
+	public void setTotalBlock(int totalBlock) {
+		this.totalBlock = totalBlock;
+	}
+
+	public int getNowBlock() {
+		return nowBlock;
+	}
+
+	public void setNowBlock(int nowBlock) {
+		this.nowBlock = nowBlock;
+	}
+
+	public int getStartPage() {
+		return startPage;
+	}
+
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+
+	public boolean isPrev() {
+		return prev;
+	}
+
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+
+	public boolean isNext() {
+		return next;
+	}
+
+	public void setNext(boolean next) {
+		this.next = next;
 	}
 	
 	

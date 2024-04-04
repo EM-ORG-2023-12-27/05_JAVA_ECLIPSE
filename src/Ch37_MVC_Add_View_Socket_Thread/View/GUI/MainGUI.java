@@ -36,21 +36,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	JButton btn3;
 	
 	JButton prev;
-	JButton idx01;
-	JButton idx02;
-	JButton idx03;
-	JButton idx04;
-	JButton idx05;
-	JButton idx06;
-	JButton idx07;
-	JButton idx08;
-	JButton idx09;
-	JButton idx10;
-	JButton idx11;
-	JButton idx12;
-	JButton idx13;
-	JButton idx14;
-	JButton idx15;
+	JLabel idx;
 	JButton next;
 	//
 	public LoginUI loginUI;
@@ -60,6 +46,9 @@ public class MainGUI extends JFrame implements ActionListener {
 	
 	//
 	public ClientBackground clientBackground;
+	
+	//
+	PageDto pageDto;
 	
 	public MainGUI() throws Exception {
 
@@ -91,20 +80,13 @@ public class MainGUI extends JFrame implements ActionListener {
 		
 		prev = new JButton("<");	
 		next = new JButton(">");
-		idx01 = new JButton("1");
-		idx02 = new JButton("2");
-		idx03 = new JButton("3");
-		idx04 = new JButton("4");
-		idx05 = new JButton("5");
+		idx = new JLabel("001");
+
 
 		Font font = new Font("Arial", Font.PLAIN, 8);
 		prev.setFont(font);
 		next.setFont(font);
-		idx01.setFont(font);
-		idx02.setFont(font);
-		idx03.setFont(font);
-		idx04.setFont(font);
-		idx05.setFont(font);
+		
 
 		// 위치 조정
 		label.setBounds(10,10,200,15);
@@ -116,13 +98,13 @@ public class MainGUI extends JFrame implements ActionListener {
 		
 		
 		prev.setBounds(10,350,40,30);	
-		idx01.setBounds(60,350,50,30);
-		idx02.setBounds(120,350,50,30);
-		idx03.setBounds(180,350,50,30);
-		idx04.setBounds(240,350,50,30);
-		idx05.setBounds(300,350,50,30);
-		next.setBounds(360,350,40,30);
+		idx.setBounds(60,350,50,30);
+		next.setBounds(120,350,40,30);
 		
+		
+		prev.setVisible(false);
+		next.setVisible(false);
+		idx.setVisible(false);
 		
 		
 		//EVENT
@@ -133,12 +115,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		prev.addActionListener(this);
 		next.addActionListener(this);
 		
-		idx01.addActionListener(this);
-		idx02.addActionListener(this);
-		idx03.addActionListener(this);
-		idx04.addActionListener(this);
-		idx05.addActionListener(this);
-		
+	
+
 		// 컴포넌트를 패널에 추가
 		panel.add(label);
 		panel.add(txt);
@@ -149,13 +127,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		
 		panel.add(prev);
 		panel.add(next);
-		panel.add(idx01);
-		panel.add(idx02);
-		panel.add(idx03);
-		panel.add(idx04);
-		panel.add(idx05);
+		panel.add(idx);
 
-		
 		
 		//EVENT
 		
@@ -193,24 +166,29 @@ public class MainGUI extends JFrame implements ActionListener {
 			String bookCode =  txt.getText();
 			System.out.println("BTN1 CLICK bookCode " + bookCode);
 			
-			
 			Request request = new Request();
 			Map<String,Object> body = new HashMap();
 			body.put("uri", "/book");
 			Map<String,Object> params = new HashMap();
 			Integer serviceNo =-1;
+			
 			if(bookCode.equals("")) {
 				body.put("serviceNo", 4); //전체 조회
 				serviceNo=4;
+				
+				params.put("pageNo", 1);
+				body.put("params", params);
 			}
 			else {
 				body.put("serviceNo", 5); //bookCode 조회
 				serviceNo=5;
+				params.put("pageNo", 1);
 				params.put("bookCode", Integer.parseInt(bookCode));
 				body.put("params", params);
 			}
 
 			request.setBody(body);
+			
 			try {				
 				clientBackground.requestServer(request);
 				Thread.sleep(1000);
@@ -220,6 +198,8 @@ public class MainGUI extends JFrame implements ActionListener {
 
 			Map<String,Object>response =  clientBackground.receiveBody;
 			System.out.println("MAIN GUI Response : " + response);
+			
+			
 			
 			
 			//Table Setting
@@ -245,7 +225,20 @@ public class MainGUI extends JFrame implements ActionListener {
 			}
 			table.setModel(model);
 			
-
+			pageDto = (PageDto)response.get("pageDto");
+			
+			if(pageDto.isNext())
+				next.setVisible(true);
+			else
+				next.setVisible(false);
+	
+			if(pageDto.isPrev())
+				prev.setVisible(true);
+			else
+				prev.setVisible(false);
+			
+			idx.setText(pageDto.getNowBlock()+"");
+			idx.setVisible(true);
 			
 		}
 		else if(e.getSource()==btn2) {
@@ -265,10 +258,125 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 		
 		else if(e.getSource()==prev) {
+			//pageNo=${pageDto.nowBlock * pageDto.pagePerBlock - pageDto.pagePerBlock*2 + 1}
+			
+			Request request = new Request();
+			Map<String,Object> body = new HashMap();
+			body.put("uri", "/book");
+			Map<String,Object> params = new HashMap();
+			Integer serviceNo = 4;
+			
+			
+			int pageNo = pageDto.getNowBlock() * pageDto.getPagePerBlock() - pageDto.getPagePerBlock()*2 + 1;
+			System.out.println("PAGE NO : " + pageNo);
+			body.put("serviceNo", 4); //전체 조회		
+			params.put("pageNo",pageNo);
+			body.put("params", params);
+			
+			request.setBody(body);
+			try {				
+				clientBackground.requestServer(request);
+				Thread.sleep(1000);
+			} catch (Exception e1) {			
+				e1.printStackTrace();
+			}
+
+			Map<String,Object>response =  clientBackground.receiveBody;
+			System.out.println("MAIN GUI Response : " + response);
+			
+			
+			//Table Setting
+			//테이블 구조생성		
+			String[] column = {"도서코드", "도서명", "출판사","ISBN"};
+			Object[][] data = {};
+			DefaultTableModel model = new DefaultTableModel(data,column);
+			
+			List<BookDto> list =  (List<BookDto>) response.get("list");
+			System.out.println("LIST : " + list);		
+			for(BookDto dto : list) {
+				Object[] rowData = {dto.getBookCode(),dto.getBookName(),dto.getPublisher(),dto.getIsbn()};
+				model.addRow(rowData);
+			}
+			table.setModel(model);
+			
+			
+			pageDto = (PageDto)response.get("pageDto");
+			
+			if(pageDto.isNext())
+				next.setVisible(true);
+			else
+				next.setVisible(false);
+	
+			if(pageDto.isPrev())
+				prev.setVisible(true);
+			else
+				prev.setVisible(false);
+			
+			idx.setText(pageDto.getNowBlock()+"");
+			idx.setVisible(true);
+			
+
 			
 		}
 		else if(e.getSource()==next) {
-				
+			//pageNo=${pageDto.nowBlock*pageDto.pagePerBlock+1}
+			
+		
+			Request request = new Request();
+			Map<String,Object> body = new HashMap();
+			body.put("uri", "/book");
+			Map<String,Object> params = new HashMap();
+			Integer serviceNo = 4;
+			
+			
+			int pageNo = pageDto.getNowBlock()*pageDto.getPagePerBlock()+1;
+			System.out.println("PAGE NO : " + pageNo);
+			body.put("serviceNo", 4); //전체 조회		
+			params.put("pageNo",pageNo);
+			body.put("params", params);
+			
+			request.setBody(body);
+			try {				
+				clientBackground.requestServer(request);
+				Thread.sleep(1000);
+			} catch (Exception e1) {			
+				e1.printStackTrace();
+			}
+
+			Map<String,Object>response =  clientBackground.receiveBody;
+			System.out.println("MAIN GUI Response : " + response);
+			
+			
+			//Table Setting
+			//테이블 구조생성		
+			String[] column = {"도서코드", "도서명", "출판사","ISBN"};
+			Object[][] data = {};
+			DefaultTableModel model = new DefaultTableModel(data,column);
+			
+			List<BookDto> list =  (List<BookDto>) response.get("list");
+			System.out.println("LIST : " + list);		
+			for(BookDto dto : list) {
+				Object[] rowData = {dto.getBookCode(),dto.getBookName(),dto.getPublisher(),dto.getIsbn()};
+				model.addRow(rowData);
+			}
+			table.setModel(model);
+			
+			
+			pageDto = (PageDto)response.get("pageDto");
+			
+			if(pageDto.isNext())
+				next.setVisible(true);
+			else
+				next.setVisible(false);
+	
+			if(pageDto.isPrev())
+				prev.setVisible(true);
+			else
+				prev.setVisible(false);
+			
+			idx.setText(pageDto.getNowBlock()+"");
+			idx.setVisible(true);
+			
 		}
 		
 		

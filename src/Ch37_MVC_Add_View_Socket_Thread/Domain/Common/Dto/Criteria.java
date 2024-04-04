@@ -1,6 +1,10 @@
 package Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto;
 
-public class Criteria {
+import java.io.Serializable;
+
+public class Criteria  implements Serializable{
+	private static final long serialVersionUID = 4L;
+
 	private int pageno;	 			//현재 페이지
 	private int amount;	 			//표시할 게시물 양(10건)
 	private String type;			//	제목,작성자,게시물번호

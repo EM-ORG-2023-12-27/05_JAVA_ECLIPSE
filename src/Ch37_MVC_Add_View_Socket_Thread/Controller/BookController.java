@@ -8,6 +8,7 @@ import java.util.Map;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dao.Common.ConnectionPool;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.BookDto;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.Criteria;
+import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Dto.PageDto;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookService;
 import Ch37_MVC_Add_View_Socket_Thread.Domain.Common.Service.BookServiceImpl;
 
@@ -80,34 +81,41 @@ public class BookController implements SubController{
 		}
 		else if(serviceNo==4) //SELECTALL
 		{
+			
 			System.out.println("");
 
-			Criteria  criteria = new Criteria(); //1페이지 10개
-	        
-	
-			
+			Integer pageNo = (Integer)params.get("pageNo");
+			System.out.println("pageNo : " + pageNo);
+			Criteria  criteria=null;
+			if(pageNo==null)
+				criteria = new Criteria(); //1페이지 10개
+			else
+				criteria = new Criteria(pageNo,10);
+	        			
 			//유효성
 			//서비스
-			List<BookDto> list =null;
+			System.out.println("BookController's criteria : " + criteria);
+			Map<String,Object> returnValue = null;
+			
 			try {
-				list = service.getAllBooks(criteria);			
+				returnValue = service.getAllBooks(criteria);			
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 				//05-01 TX
 				try {connectionPool.txRollBack();} catch (SQLException e1) {e1.printStackTrace();}
 			}
-			
+					
+			List<BookDto> list =  (List<BookDto>) returnValue.get("list");
+			PageDto pageDto = (PageDto)returnValue.get("pageDto");
+				
 			//뷰
-			Map<String,Object> response = new HashMap();
-			if(list!=null) {
-				response.put("response", true);
-				response.put("msg", "조회 성공 list : " + list);
-				response.put("list", list);
-			}else {
-				response.put("msg", "조회 실패");
-				response.put("response", false);
-			}
+			Map<String,Object> response = new HashMap();				
+			response.put("response", true);
+			response.put("msg", "조회 성공 list : " + list + " pageDto : " + pageDto);
+			response.put("list", list);
+			response.put("pageDto", pageDto);
+			
 			return response;
 		}
 		else if(serviceNo==5) //SELECTONE
