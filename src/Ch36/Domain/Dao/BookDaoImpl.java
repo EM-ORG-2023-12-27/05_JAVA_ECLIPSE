@@ -13,6 +13,8 @@ import Ch36.Domain.Dto.BookDto;
 
 
 public class BookDaoImpl {
+	
+	
 	private String url ="jdbc:mysql://localhost:3306/bookdb";
 	private String id = "root";
 	private String pw = "1234";
@@ -21,11 +23,19 @@ public class BookDaoImpl {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	public BookDaoImpl() throws Exception{
+	
+	private static BookDaoImpl instance ;
+	public static BookDaoImpl getInstance() throws Exception {
+		if(instance==null)
+			instance=new BookDaoImpl();
+		return instance;
+	}
+	private BookDaoImpl() throws Exception{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(url,id,pw);
 		System.out.println("[DAO] BookDaoImpl's INIT DB Connected...");
 	}
+	
 	//INSERT
 	public boolean Insert(BookDto dto) throws Exception{
 		pstmt = conn.prepareStatement("insert into book values(?,?,?,?)");

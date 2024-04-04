@@ -19,7 +19,15 @@ public class SessionDaoImpl {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	public SessionDaoImpl() throws Exception{
+	
+	private static SessionDaoImpl instance ;
+	public static SessionDaoImpl getInstance() throws Exception {
+		if(instance==null)
+			instance=new SessionDaoImpl();
+		return instance;
+	}
+	
+	private SessionDaoImpl() throws Exception{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(url,id,pw);
 		System.out.println("[DAO] SessionDaoImpl's INIT DB Connected...");

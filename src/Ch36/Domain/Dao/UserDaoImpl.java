@@ -17,7 +17,14 @@ public class UserDaoImpl {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	
-	public UserDaoImpl() throws Exception{
+	private static UserDaoImpl instance ;
+	public static UserDaoImpl getInstance() throws Exception {
+		if(instance==null)
+			instance=new UserDaoImpl();
+		return instance;
+	}
+	
+	private UserDaoImpl() throws Exception{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(url,id,pw);
 		System.out.println("[DAO] UserDaoImpl's INIT DB Connected...");

@@ -13,7 +13,7 @@ public class BookController implements SubController{
 	public BookController(){	
 		try {
 			
-			service = new BookServiceImpl();
+			service = BookServiceImpl.getInstance();
 		
 		} catch (Exception e) {
 			e.printStackTrace();

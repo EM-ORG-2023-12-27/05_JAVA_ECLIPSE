@@ -20,12 +20,19 @@ public class UserServiceImpl {
 	private SessionDaoImpl sessionDao;
 	
 	
-	public UserServiceImpl() throws Exception {
+	private static UserServiceImpl instance ;
+	public static UserServiceImpl getInstance() throws Exception {
+		if(instance==null)
+			instance=new UserServiceImpl();
+		return instance;
+	}
+	
+	private UserServiceImpl() throws Exception {
 		System.out.println("UserServiceImpl's UserServiceImpl()");
 		bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		
-		userDao = new UserDaoImpl();
-		sessionDao = new SessionDaoImpl();
+		userDao = UserDaoImpl.getInstance();
+		sessionDao = SessionDaoImpl.getInstance();
 		
 		SessionIdList=new ArrayList();
 		

@@ -65,7 +65,7 @@ public class Application {
 //		controller.execute("/user", 1, params);
 		
 		//09
-		UserServiceImpl service = new UserServiceImpl();
+//		UserServiceImpl service = new UserServiceImpl();
 //		service.UserJoin(new UserDto("user1","1234","ROLE_USER",false));
 		
 		//로그인실패 : 존재하지 않는계정
@@ -89,7 +89,7 @@ public class Application {
 //		System.out.println("isLogout01 :" + isLogout01);
 		
 		
-		FrontController controller = new FrontController();
+//		FrontController controller = new FrontController();
 //		Map<String,Object> params = new HashMap();
 //		params.put("username", "user1");
 //		params.put("password", "1234");
@@ -101,6 +101,8 @@ public class Application {
 //		Map<String,Object>response =controller.execute("/user", 7, params);
 //		System.out.println(response);
 		
+		
+		FrontController controller = new FrontController();
 		
 	}
 	

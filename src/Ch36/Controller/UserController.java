@@ -12,7 +12,7 @@ public class UserController implements SubController{
 	public UserController(){
 		
 		try {
-			userService=new UserServiceImpl();
+			userService=UserServiceImpl.getInstance();
 		
 		} catch (Exception e) {
 			
