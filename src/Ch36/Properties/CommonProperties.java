@@ -9,6 +9,7 @@ import Ch36.Application;
 
 public class CommonProperties {
 	
+	//전역 설정 값들.. application.properties 로부터 읽어온다..
 	public static String DBURL;
 	public static String DBID;
 	public static String DBPW;

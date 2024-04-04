@@ -20,6 +20,12 @@
 3 application.properties 에서 설정내용 받아서 사용하기
 	- application.properties DB Conn관련 Value값 적기
 	
+	- Properties 패키지 추가
+	- CommonProperties 에서 application.properties 의 파일 값을 가져와 public static 속성으로 저장
+	- CommonProperties 의 public static 속성값들을 DB연결에 사용 
+	
+	- //05-03 참고
+	
 
 
 
