@@ -8,12 +8,16 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import Ch36.Properties.CommonProperties;
+
 public class ConnectionPool_ByHikari {
 
-	protected String url ="jdbc:mysql://localhost:3306/bookdb";
-	protected String id = "root";
-	protected String pw = "1234";
-	
+
+//	protected String url ="jdbc:mysql://localhost:3306/bookdb";
+//	protected String id = "root";
+//	protected String pw = "1234";
+
+	//05-03 application.properties
 	protected Connection conn =null;
 	protected PreparedStatement pstmt = null;
 	protected ResultSet rs = null;
@@ -40,9 +44,14 @@ public class ConnectionPool_ByHikari {
 		//---------------------
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		config.setJdbcUrl(url);
-		config.setUsername(id);
-		config.setPassword(pw);	
+//		config.setJdbcUrl(url);
+//		config.setUsername(id);
+//		config.setPassword(pw);
+		
+		//05-03
+		config.setJdbcUrl(CommonProperties.DBURL);
+		config.setUsername(CommonProperties.DBID);
+		config.setPassword(CommonProperties.DBPW);	
 		//최대 Connection 개수
 		config.setMaximumPoolSize(10);
 

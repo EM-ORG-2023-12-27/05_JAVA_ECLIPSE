@@ -1,10 +1,6 @@
 package Ch36;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import Ch36.Controller.FrontController;
-import Ch36.Domain.Service.UserServiceImpl;
+import Ch36.Properties.CommonProperties;
 
 public class Application {
 
@@ -102,7 +98,10 @@ public class Application {
 //		System.out.println(response);
 		
 		
-		FrontController controller = new FrontController();
+		//FrontController controller = new FrontController();
+		
+		CommonProperties a = CommonProperties.getInstance();
+		
 		
 	}
 	

@@ -1,15 +1,25 @@
 package Ch36.Controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+
+import Ch17.C06PropertiesMain;
 
 public class FrontController {
 	
+	
+	
 	private Map<String,SubController> map = new HashMap();
 	
-	public FrontController(){
+	public FrontController() throws Exception{
 		System.out.println("FrontController()");
 		init();
+
+		
 	}
 	private void init() {
 		System.out.println("FrontController's init()");
