@@ -1,3 +1,12 @@
+1 SingleTon Pattern
+	Dao
+		- SessionDaoImpl
+		- UserDaoImpl
+		- BookDaoImpl
+	Service
+		- UserServiceImpl
+		- BookServiceImpl
+	
 2 Connection단일화
 	1 CommonDao
 		- id/pw/url
@@ -13,4 +22,3 @@
 	1 ServiceImpl - Dao(Interface) - DaoImpl(!)
  	2 Controller - Service(interface) - ServiceImpl		
 
- 	

@@ -12,6 +12,9 @@
 
 3 HikariCP  + 트랜잭션 처리
 
+1 application.properties 에서 설정내용 적기
+
+
 
 
  
