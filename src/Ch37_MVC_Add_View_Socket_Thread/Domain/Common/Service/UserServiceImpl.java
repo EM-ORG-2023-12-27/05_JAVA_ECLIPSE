@@ -133,6 +133,7 @@ public class UserServiceImpl implements UserService  {
 		result.put("response", true);
 		result.put("msg", "로그인 성공!");
 		result.put("sessionId", id);
+		result.put("role", sessionDto.getRole());
 		SessionIdList.add(id);
 		return result;
 		

@@ -120,16 +120,25 @@ public class LoginUI extends JFrame implements ActionListener{
 				if(isLogined) {
 					
 					Integer sessionId = (Integer)response.get("sessionId");
+					String role = (String)response.get("role");
+					
 					System.out.println("LoginUI SESSIONID : " + sessionId);
 					mainGUI.mySessionId = sessionId;
+					mainGUI.myRole = role;
 					
 					String message = (String)response.get("msg");
 					JOptionPane.showMessageDialog(null, message);
 					
 					
 					//역할별로 UI창 띄우기(ROLE_USER)
-					this.setVisible(false);
-					usergui.setVisible(true);
+					if(mainGUI.myRole.equals("ROLE_USER")) {
+						this.setVisible(false);
+						usergui.setVisible(true);	
+					}else if(mainGUI.myRole.equals("ROLE_MEMBER")) {
+						this.setVisible(false);
+						membergui.setVisible(true);					
+					}
+					
 					
 					
 					

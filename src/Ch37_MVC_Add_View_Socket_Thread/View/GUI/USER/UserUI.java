@@ -127,6 +127,7 @@ public class UserUI  extends JFrame implements ActionListener{
 					
 					//로그아웃이후  sessionid 초기화
 					mainGUI.mySessionId = 0;
+					mainGUI.myRole=null;
 					this.setVisible(false);
 					mainGUI.setVisible(true);
 					JOptionPane.showMessageDialog(null, message);

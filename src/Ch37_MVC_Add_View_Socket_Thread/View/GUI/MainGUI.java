@@ -49,6 +49,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	
 	//
 	PageDto pageDto;
+	public String myRole;
 	
 	public MainGUI() throws Exception {
 
