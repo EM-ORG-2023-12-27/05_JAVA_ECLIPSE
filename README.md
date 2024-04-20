@@ -1,11 +1,12 @@
 ---
 ### 00 설치하기
 ---
-[JDK-17 DOWNLOAD](https://jdk.java.net/archive/) | 
-[Eclipse DOWNLOAD](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-java-2023-12-R-win32-x86_64.zip) |
-[WEB-COMPILER](https://www.programiz.com/java-programming/online-compiler/) |
-[JDK-17 API DOCUMENT](https://docs.oracle.com/en/java/javase/17/docs/api/index.html) |
-
+|TITLE|LINK|DESC|
+|------|---|---|
+|JDK-17 DOWNLOAD|[바로가기](https://jdk.java.net/archive/)|-|
+|Eclipse DOWNLOAD|[바로가기](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-java-2023-12-R-win32-x86_64.zip)|-|
+|WEB-COMPILER|[바로가기](https://www.programiz.com/java-programming/online-compiler/)|-|
+|JDK-17 API DOCUMENT|[바로가기](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)|-|
 
 ---
 ### 자바 PART01
