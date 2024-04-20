@@ -18,7 +18,7 @@
 |개념|[바로가기](./JAVA_PART01)|-|
 |기본|바로가기|-|
 |출력함수|바로가기|-|
-|정수/실수/상수/변수/자료형|바로가기|[정수/실수](https://velog.io/@qwa1822/%EC%A0%95%EC%88%98-%EC%8B%A4%EC%88%98-%EC%9E%90%EB%A3%8C%ED%91%9C%ED%98%84JAVA)<br>[상수/변수](https://velog.io/@max9106/Java-%EB%B3%80%EC%88%98-jqk4a6ohw4)<br>[자료형](https://adjh54.tistory.com/119#google_vignette)<br>|
+|정수/실수/상수/변수/자료형|[정수/실수](https://velog.io/@qwa1822/%EC%A0%95%EC%88%98-%EC%8B%A4%EC%88%98-%EC%9E%90%EB%A3%8C%ED%91%9C%ED%98%84JAVA)<br>[상수/변수](https://velog.io/@max9106/Java-%EB%B3%80%EC%88%98-jqk4a6ohw4)<br>[자료형](https://adjh54.tistory.com/119#google_vignette)<br>|-| 
 |연산자|바로가기|-|
 |분기문|바로가기|-|
 |반복문|바로가기|-|
