@@ -1,6 +1,7 @@
+
+설치하기
 ---
-### 00 설치하기
----
+
 |TITLE|LINK|DESC|
 |------|---|---|
 |JDK-17 DOWNLOAD|[바로가기](https://jdk.java.net/archive/)|-|
@@ -8,9 +9,10 @@
 |WEB-COMPILER|[바로가기](https://www.programiz.com/java-programming/online-compiler/)|-|
 |JDK-17 API DOCUMENT|[바로가기](https://docs.oracle.com/en/java/javase/17/docs/api/index.html)|-|
 
+
+자바 PART01
 ---
-### 자바 PART01
----
+
 [바로가기](./JAVA_PART01)
 
 - 자바개요
